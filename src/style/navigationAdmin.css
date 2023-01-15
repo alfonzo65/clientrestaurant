@@ -1,0 +1,45 @@
+
+
+.titleContent {
+   background: linear-gradient(to right, #0099cc 26%, #000066 82%);
+}
+
+
+.nav-bar .nav-div:hover{
+   background-color: #111;
+}
+.nav-div .nav-link:hover{
+   color:#fff
+}
+
+.nav-bar div {
+   display: inline-block;
+   color: #ddd;
+   padding: 5px;
+   width: 90px;
+}
+
+.nav-bar {
+   background-color: #222;
+}
+
+@media screen and (max-width: 740px) {
+   .nav-bar .nav-div {
+      display: block;
+      width: 100%;
+   }
+
+   .nav-div {
+      width: 100%;
+   }
+
+   .nav-div .nav-link {
+      font-size: 20px;
+   }
+
+   .nav-link span {
+      display:none !important
+   }
+ }
+
+

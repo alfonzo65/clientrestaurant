@@ -1,0 +1,25 @@
+
+
+.purchase-card {
+    background: #a7f3d0;
+    border-bottom: 10px solid #186;
+    box-shadow: 0 0 3px black;
+}
+
+.sales-card {
+    background: #3399ff;
+    border-bottom: 10px solid #004d99;
+    box-shadow: 0 0 3px black;
+}
+
+.delivery-card {
+    background: #ffff1a;
+    border-bottom: 10px solid #e6ac00 ;
+    box-shadow: 0 0 3px black;
+}
+
+.pedidos-card {
+    background: #7700b3;
+    border-bottom: 10px solid #b31aff;
+    box-shadow: 0 0 3px black;
+}
