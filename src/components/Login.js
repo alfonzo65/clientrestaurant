@@ -17,7 +17,6 @@ function Login() {
   // peticion al rest-api 
   function handlerSubmit(e){
     e.preventDefault()
-    // peticion al backend
     console.log( user + " " + rol )
     navigate(rol, { replace: true })
   }

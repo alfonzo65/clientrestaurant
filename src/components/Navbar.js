@@ -39,14 +39,14 @@ function Navbar() {
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="menu">
           <span className="material-symbols-outlined d-block">send</span>
           Menu
         </Link>
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="ordenes">
           <span className="material-symbols-outlined d-block">list_alt</span>
           Ordenes
         </Link>

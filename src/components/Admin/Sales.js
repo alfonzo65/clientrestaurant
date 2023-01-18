@@ -17,7 +17,7 @@ function Sales({title}) {
               <tr>
                 <th>Cliente</th>
                 <th>C.I</th>
-                <th>Dirección</th>
+                <th>Sector</th>
                 <th>Opcion del Menu</th>
                 <th>Monto a Pagar</th>
                 <th>Acción</th>
