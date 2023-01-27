@@ -1,10 +1,11 @@
 import Header from "../components/Header.js";
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/NavbarAdm.js";
 import Dashboard from "../components/Admin/Dashboard.js";
 import Purchase from "../components/Admin/Purchase.js";
 import Sales from "../components/Admin/Sales.js";
 import Menu from "../components/Admin/Menu.js";
 import Ordenes from "../components/Admin/Ordenes.js";
+import Delivery from "../components/Admin/Delivery.js";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -31,6 +32,7 @@ function Admin() {
         <Route path="/sales" element={<Sales title="Sales" />} />
         <Route path="/menu" element={<Menu title="Menu" />} />
         <Route path="/ordenes" element={<Ordenes title="Ordenes" />} />
+        <Route path="/delivery" element={<Delivery title="Delivery" />} />
       </Routes>
     </>
   );

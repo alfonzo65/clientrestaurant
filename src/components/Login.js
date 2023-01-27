@@ -11,7 +11,7 @@ function Login() {
 
   function handlerUser(e){
     setUserName(e.target.value)
-    setUserRol("admin")
+    setUserRol("facturador")
   }
 
   // peticion al rest-api 

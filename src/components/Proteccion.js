@@ -6,8 +6,6 @@ function Proteccion({children,actor}){
 
     const { rol } = useContext(UserContext)
 
-    console.log(rol)
-
     if( rol !== actor )
         return <Navigate to="/"/>
 

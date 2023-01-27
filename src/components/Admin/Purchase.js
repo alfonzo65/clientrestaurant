@@ -35,10 +35,10 @@ function Purchase({ title }) {
               <thead className="table-dark">
                 <tr>
                   <th>Proveedor</th>
-                  <th>Categoria</th>
-                  <th>Cantidad</th>
+                  <th>Rif</th>
+                  <th>Description</th>
                   <th>Monto a Pagar</th>
-                  <th>Acción</th>
+                  <th>Fecha</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,9 +47,7 @@ function Purchase({ title }) {
                   <td>Bebidas</td>
                   <td>11ltrs</td>
                   <td>250$</td>
-                  <td>
-                    <button className="btn btn-primary text-white py-1 px-2">Ver</button>
-                  </td>
+                  <td>2/5/2010</td>
                 </tr>
               </tbody>
             </table>

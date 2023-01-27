@@ -30,7 +30,7 @@ function Navbar() {
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="delivery">
           <span className="material-symbols-outlined d-block">
             directions_bike
           </span>
