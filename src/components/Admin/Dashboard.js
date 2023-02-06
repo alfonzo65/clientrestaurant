@@ -142,7 +142,7 @@ function Dashboard({ title }) {
           <div className="col-md-6">
             <div className="card m-1 pedidos-card rounded-4 text-dark">
               <div className="card-body text-center">
-                <i className="fa-solid fa-book-open-reader fs-1 p-3 rounded-5 text-white" style="background-color: #9600E0;"></i>
+                <i className="fa-solid fa-book-open-reader fs-1 p-3 rounded-5 text-white"></i>
                 <h5 className="card-title mt-1">Ordenes</h5>
                 {ordenes && (
                   <h3 className="fs-3">
