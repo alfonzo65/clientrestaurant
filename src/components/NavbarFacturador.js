@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "../style/navigationAdmin.css";
 
 function NavbarFacturador() {
+
   return (
     <nav className="container-fluid p-0 nav-bar text-center">
       <div className="nav-div">
@@ -16,7 +17,7 @@ function NavbarFacturador() {
       <div className="nav-div">
         <Link className="nav-link" to="createInvoice">
           <span className="material-symbols-outlined d-block">receipt</span>
-          New Invoice
+          NewInvoice
         </Link>
       </div>
 

@@ -1,0 +1,42 @@
+.btnDone, .btnCancel {
+    padding: 0px 8px;
+    margin-top: 5px;
+    border-radius: 0;
+}
+
+.btnDone{
+    border-top-left-radius: 10px;
+    background-color: rgb(9, 111, 60);
+    color: #fff;
+}
+
+.btnCancel{
+    border-top-right-radius: 10px;
+    background-color: rgb(108, 8, 18);
+    color: #fff;
+}
+
+.btnDone:hover{
+    background-color: rgb(16, 224, 120);
+}
+
+.btnCancel:hover{
+    background-color: rgb(231, 15, 37);
+}
+
+
+
+.pedido {
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+    border-radius: 10px;
+}
+
+.pedido:hover {
+    box-shadow: 0px 2px 3px black;
+}
+.titlePedido{
+    background-color: #1b6;
+}

@@ -23,7 +23,7 @@
    background-color: #222;
 }
 
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 820px) {
    .nav-bar .nav-div {
       display: block;
       width: 100%;

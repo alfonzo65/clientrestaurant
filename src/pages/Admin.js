@@ -6,21 +6,27 @@ import Sales from "../components/Admin/Sales.js";
 import Menu from "../components/Admin/Menu.js";
 import Ordenes from "../components/Admin/Ordenes.js";
 import Delivery from "../components/Admin/Delivery.js";
+import Settings from '../components/Admin/Settings.js'
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import "../style/navigationAdmin.css";
 import "../style/dashboard.css";
 import "../style/purchase.css";
-import "../style/menu.css"
-import "../style/ordenes.css"
+import "../style/menu.css";
+import "../style/ordenes.css";
+import "../style/settings.css"
 
 function Admin() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    navigate("dashboard", { replace: true });
+    
+    navigate("dashboard");
+
   }, []);
+
+  
 
   return (
     <>
@@ -33,6 +39,7 @@ function Admin() {
         <Route path="/menu" element={<Menu title="Menu" />} />
         <Route path="/ordenes" element={<Ordenes title="Ordenes" />} />
         <Route path="/delivery" element={<Delivery title="Delivery" />} />
+        <Route path="/settings/*" element={<Settings title="Settings" />} />
       </Routes>
     </>
   );

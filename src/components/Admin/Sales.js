@@ -1,4 +1,55 @@
-function Sales({title}) {
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/UserContext.js";
+import swal from "sweetalert";
+
+function Sales({ title }) {
+  const { token } = useContext(UserContext);
+  const [facturas, setFacturas] = useState([]);
+  const [ventas, setVentas] = useState(null);
+
+  useEffect(() => {
+    cargarVentas();
+    ventasTotal();
+  }, []);
+
+  async function cargarVentas() {
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/work/ventas",
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const { success, data } = await res.json();
+
+    if (!success) swal("Ocurrio un error al cargar las facturas");
+    else setFacturas(data);
+
+    if (data.length === 0) swal("No hay Facturas De Ventas");
+  }
+
+  async function ventasTotal() {
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/work/ventas/total",
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    const { success, data } = await res.json();
+    if (success) {
+      setVentas(data[0].total);
+    } else console.log("error interno al consultar el total de ventas");
+  }
+
   return (
     <div className="container mt-2 rounded-1">
       <div className="row">
@@ -7,7 +58,7 @@ function Sales({title}) {
           <div className="encabezado">
             <ul className="encabezado_ul">
               <li>Ventas Realizadas: {"Count"}</li>
-              <li>Monto total: ${"Amount"}</li>
+              {ventas && <li>Monto total: {ventas}$</li>}
             </ul>
           </div>
 
@@ -18,24 +69,25 @@ function Sales({title}) {
                 <th>Cliente</th>
                 <th>C.I</th>
                 <th>Sector</th>
-                <th>Opcion del Menu</th>
+                <th>Description</th>
                 <th>Monto a Pagar</th>
                 <th>Acción</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Jhon</td>
-                <td>5558941</td>
-                <td>El mojan, av3 calle 51</td>
-                <td>2</td>
-                <td>{210}$</td>
-                <td>
-                  <button className="btn btn-primary text-white py-1 px-2">
-                    Ver
-                  </button>
-                </td>
-              </tr>
+              {facturas.map((venta) => {
+                venta.fecha = venta.fecha.substring(0,10)
+                return (
+                  <tr key={venta.id}>
+                    <td>{venta.nombre}</td>
+                    <td>{venta.cedula}</td>
+                    <td>{venta.direccion}</td>
+                    <td>{venta.descripcion}</td>
+                    <td>{venta.total}$</td>
+                    <td>{venta.fecha}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -44,4 +96,4 @@ function Sales({title}) {
   );
 }
 
-export default Sales
+export default Sales;

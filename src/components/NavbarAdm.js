@@ -51,12 +51,14 @@ function Navbar() {
           Ordenes
         </Link>
       </div>
+
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="settings/perfil">
           <span className="material-symbols-outlined d-block">settings</span>
           Settings
         </Link>
       </div>
+
       <div className="nav-div">
         <Link className="nav-link" to="#">
           <span className="material-symbols-outlined d-block">logout</span>

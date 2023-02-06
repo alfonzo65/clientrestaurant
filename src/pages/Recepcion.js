@@ -10,6 +10,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import "../style/nuevaOrden.css"
+import "../style/pedidos.css"
 
 function Recepcion() {
   let navigate = useNavigate();

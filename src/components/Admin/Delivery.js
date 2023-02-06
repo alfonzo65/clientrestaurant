@@ -1,19 +1,32 @@
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/UserContext.js";
+import swal from "sweetalert";
 
 function Delivery({ title }) {
+  const { token } = useContext(UserContext);
+  const [ pedidos, setPedidos ] = useState([])
 
 
+  useEffect(()=>{
+    cargarEntregas()
+  },[])
 
 
-
-
-
-
-
-
-
-
-
-
+  async function cargarEntregas(){
+    const res = await fetch('https://luzpizstore.onrender.com/api/work/confirmados',{
+      method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+    })
+    const {success, data } = await res.json()
+    if( success )
+      setPedidos(data)
+    else
+      swal("Error interno con la api")
+  }
 
 
 
@@ -35,17 +48,22 @@ function Delivery({ title }) {
                   <tr>
                     <th>Cliente</th>
                     <th>Cedula</th>
-                    <th>Direccion</th>
+                    <th>Direccion de Entrega</th>
                     <th>Fecha</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Coca-cola</td>
-                    <td>Bebidas</td>
-                    <td>11ltrs</td>
-                    <td>22/10/2010</td>
-                  </tr>
+                  { pedidos.map((pedido)=>{
+                    pedido.fecha = pedido.fecha.substring(0,10)
+                    return(
+                      <tr key={pedido.id}>
+                        <td>{pedido.nombre}</td>
+                        <td>{pedido.cedula}</td>
+                        <td>{pedido.direccion}</td>
+                        <td>{pedido.fecha}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             

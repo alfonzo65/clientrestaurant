@@ -1,14 +1,14 @@
 
 
-.purchase-card {
+.sales-card {
     background: #a7f3d0;
     border-bottom: 10px solid #186;
     box-shadow: 0 0 3px black;
 }
 
-.sales-card {
-    background: #3399ff;
-    border-bottom: 10px solid #004d99;
+.purchase-card {
+    background: #dd6a78;
+    border-bottom: 10px solid #9e1417;
     box-shadow: 0 0 3px black;
 }
 
