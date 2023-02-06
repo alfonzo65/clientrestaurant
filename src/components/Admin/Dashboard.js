@@ -73,7 +73,7 @@ function Dashboard({ title }) {
     <>
       <div className="container mt-2 rounded-1">
         <div className="row">
-          <h2 className="titleContent p-2 text-white rounded-2">{title}</h2>
+          <h2 className="titleContent p-2 text-dark rounded-2">{title}</h2>
 
           <div className="col-md-6">
             <div className="card m-1 sales-card rounded-4">
@@ -94,9 +94,9 @@ function Dashboard({ title }) {
             <div className="card m-1 purchase-card rounded-4">
               <div className="card-body text-center">
                 <i className="fa-solid fa-hand-holding-dollar fs-1 bg-danger p-3 rounded-5 text-white"></i>
-                <h5 className="card-title mt-1 text-white">Purchase</h5>
+                <h5 className="card-title mt-1 text-dark">Purchase</h5>
                 {compras && (
-                  <h3 className="fs-3 text-white">
+                  <h3 className="fs-3 text-dark">
                     ${compras}
                     <i className="fa-solid fa-caret-down text-danger p-1 fs-3"></i>
                   </h3>
@@ -108,7 +108,7 @@ function Dashboard({ title }) {
           <div className="col-md-6">
             <div className="card m-1 delivery-card rounded-4">
               <div className="card-body text-center">
-                <i className="fa-solid fa-truck-fast fs-1 bg-warning p-3 rounded-5 text-dark"></i>
+                <i className="fa-solid fa-truck-fast fs-1 bg-warning p-3 rounded-5 text-white"></i>
                 <h5 className="card-title mt-1">Pedidos</h5>
                 
                   <h3 className="fs-3">
@@ -123,7 +123,7 @@ function Dashboard({ title }) {
           <div className="col-md-6">
             <div className="card m-1 pedidos-card rounded-4 text-dark">
               <div className="card-body text-center">
-                <i className="fa-solid fa-book-open-reader fs-1 bg-danger p-3 rounded-5 text-dark"></i>
+                <i className="fa-solid fa-book-open-reader fs-1 p-3 rounded-5 text-white" style="background-color: #9600E0;"></i>
                 <h5 className="card-title mt-1">Ordenes</h5>
                 <h3 className="fs-3">
                   Count
