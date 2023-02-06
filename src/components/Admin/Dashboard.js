@@ -121,9 +121,9 @@ function Dashboard({ title }) {
           </div>
 
           <div className="col-md-6">
-            <div className="card m-1 pedidos-card rounded-4 text-white">
+            <div className="card m-1 pedidos-card rounded-4 text-dark">
               <div className="card-body text-center">
-                <i className="fa-solid fa-book-open-reader fs-1 bg-danger p-3 rounded-5 text-white"></i>
+                <i className="fa-solid fa-book-open-reader fs-1 bg-danger p-3 rounded-5 text-dark"></i>
                 <h5 className="card-title mt-1">Ordenes</h5>
                 <h3 className="fs-3">
                   Count
