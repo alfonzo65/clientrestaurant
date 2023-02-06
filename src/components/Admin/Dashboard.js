@@ -12,6 +12,7 @@ function Dashboard({ title }) {
     comprasTotal();
     ventasTotal();
     pedidosTotal();
+    ordenesTotal();
   }, []);
 
   async function comprasTotal() {
@@ -62,11 +63,29 @@ function Dashboard({ title }) {
         },
       }
     );
-    const respuesta= await res.json();
-    console.log(respuesta)
-    // if (success) {
-    //   setPedidos(data[0].total);
-    // } else console.log("error interno al consultar el total de pedidos");
+    const { success, data } = await res.json();
+    if (success) {
+      setPedidos(data);
+    } else console.log("error interno al consultar el total de pedidos");
+  }
+
+  async function ordenesTotal() {
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/work/ventas/count",
+      {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+
+    const { success, data } = await res.json();
+    if (success) {
+      setOrdenes(data);
+    } else console.log("error interno al consultar el total de pedidos");
   }
 
   return (
@@ -94,9 +113,9 @@ function Dashboard({ title }) {
             <div className="card m-1 purchase-card rounded-4">
               <div className="card-body text-center">
                 <i className="fa-solid fa-hand-holding-dollar fs-1 bg-danger p-3 rounded-5 text-white"></i>
-                <h5 className="card-title mt-1 text-white">Purchase</h5>
+                <h5 className="card-title mt-1 text-dark">Purchase</h5>
                 {compras && (
-                  <h3 className="fs-3 text-white">
+                  <h3 className="fs-3 text-dark">
                     ${compras}
                     <i className="fa-solid fa-caret-down text-danger p-1 fs-3"></i>
                   </h3>
@@ -108,14 +127,14 @@ function Dashboard({ title }) {
           <div className="col-md-6">
             <div className="card m-1 delivery-card rounded-4">
               <div className="card-body text-center">
-                <i className="fa-solid fa-truck-fast fs-1 bg-warning p-3 rounded-5 text-dark"></i>
+                <i className="fa-solid fa-truck-fast fs-1 bg-warning p-3 rounded-5 text-white"></i>
                 <h5 className="card-title mt-1">Pedidos</h5>
-                
+                {pedidos && (
                   <h3 className="fs-3">
-                    pedidos
+                    {pedidos}
                     <i className="fa-solid fa-check text-success p-1 fs-3"></i>
                   </h3>
-         
+                )}
               </div>
             </div>
           </div>
@@ -123,12 +142,14 @@ function Dashboard({ title }) {
           <div className="col-md-6">
             <div className="card m-1 pedidos-card rounded-4 text-white">
               <div className="card-body text-center">
-                <i className="fa-solid fa-book-open-reader fs-1 bg-danger p-3 rounded-5 text-white"></i>
+                <i className="fa-solid fa-book-open-reader fs-1 bg-morado p-3 rounded-5 text-white"></i>
                 <h5 className="card-title mt-1">Ordenes</h5>
-                <h3 className="fs-3">
-                  Count
-                  <i className="fa-solid fa-check text-success p-1 fs-3"></i>
-                </h3>
+                {ordenes && (
+                  <h3 className="fs-3">
+                    {ordenes}
+                    <i className="fa-solid fa-check text-success p-1 fs-3"></i>
+                  </h3>
+                )}
               </div>
             </div>
           </div>
