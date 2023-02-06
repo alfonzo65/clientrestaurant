@@ -6,6 +6,7 @@ function Sales({ title }) {
   const { token } = useContext(UserContext);
   const [facturas, setFacturas] = useState([]);
   const [ventas, setVentas] = useState(null);
+  const [contador, setContador] = useState(null);
 
   useEffect(() => {
     cargarVentas();
@@ -27,7 +28,10 @@ function Sales({ title }) {
     const { success, data } = await res.json();
 
     if (!success) swal("Ocurrio un error al cargar las facturas");
-    else setFacturas(data);
+    else {
+      setFacturas(data);
+      setContador(data.length);
+    }
 
     if (data.length === 0) swal("No hay Facturas De Ventas");
   }
@@ -57,8 +61,8 @@ function Sales({ title }) {
         <div className="col-12 text-white">
           <div className="encabezado">
             <ul className="encabezado_ul">
-              <li>Ventas Realizadas: {"Count"}</li>
-              {ventas && <li>Monto total: {ventas}$</li>}
+              <li>Ventas Realizadas: { contador ? contador : 0 }</li>
+              <li>Monto total: { ventas ? ventas : 0 }$</li>
             </ul>
           </div>
 
@@ -76,7 +80,7 @@ function Sales({ title }) {
             </thead>
             <tbody>
               {facturas.map((venta) => {
-                venta.fecha = venta.fecha.substring(0,10)
+                venta.fecha = venta.fecha.substring(0, 10);
                 return (
                   <tr key={venta.id}>
                     <td>{venta.nombre}</td>

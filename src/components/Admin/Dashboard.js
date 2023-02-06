@@ -92,7 +92,7 @@ function Dashboard({ title }) {
     <>
       <div className="container mt-2 rounded-1">
         <div className="row">
-          <h2 className="titleContent p-2 text-dark rounded-2">{title}</h2>
+          <h2 className="titleContent p-2 text-white rounded-2">{title}</h2>
 
           <div className="col-md-6">
             <div className="card m-1 sales-card rounded-4">
