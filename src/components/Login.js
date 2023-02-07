@@ -1,4 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../style/login.css"
+import logo from '../img/pizza-6682514_640.png'
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext.js";
@@ -51,18 +53,17 @@ function Login() {
   }
 
   return (
-    <div className="container">
+    <div className="container-fluid bg-pizza">
       <div className="vh-100 d-flex justify-content-center align-items-center ">
         <div
-          className="border p-3 shadow"
-          style={{ width: "350px", height: "250px" }}
+          className="login text-center position-relative"
         >
-          <h2 className="text-center">Login</h2>
+          <img src={logo} className="logo-login"></img>
           <form className="text-center mt-4" onSubmit={handlerSubmit}>
             <div className="mb-3">
               <input
                 type="text"
-                className="form-control text-center"
+                className="text-center field"
                 placeholder="example@mail.com"
                 onChange={handlerUser}
               />
@@ -70,13 +71,13 @@ function Login() {
             <div className="mb-3">
               <input
                 type="password"
-                className="form-control text-center"
+                className="text-center field"
                 id="exampleInputPassword1"
                 placeholder="password"
                 onChange={handlerPassword}
               />
             </div>
-            <input type="submit" className="btn btn-primary" value="Ingresar" />
+            <input type="submit" className="boton_ingresar" value="Ingresar" />
           </form>
         </div>
       </div>

@@ -1,0 +1,54 @@
+.login {
+    background-color: rgba(10, 10, 10, 0.7);
+    border-radius: 20px;
+    width: "350px";
+    height: "250px";
+    padding: 30px 25px;
+    box-shadow: 0 0 2px #eee;
+  }
+  
+  .logo-login{
+    border-radius: 200px;
+    box-shadow: 0px 0px 10px #ddd;
+    transform: rotate(-10deg);
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 14rem;
+    width: 120px;
+    height: 70px;
+  }
+
+  .bg-pizza {
+    background-image: url('../../public/pizza-gd77f7c7d9_1920.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+  } 
+
+  .field {
+    background-color: rgba(10, 10, 10, 0.7);
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 6px 5px;
+  }
+
+  .field:focus{
+    border-bottom: 0.5px solid #f12;
+  }
+
+  .boton_ingresar {
+    display: inline-block;
+    width: 10px;
+    border: none;
+    outline: none;
+    background-color: rgb(154, 12, 22);
+    padding: 5px;
+    color:#fff;
+  }
+
+  .boton_ingresar:hover {
+    background-color: rgb(214, 15, 28);
+  }
