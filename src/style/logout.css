@@ -1,0 +1,44 @@
+.flex-container{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../../public/pizza-3010062_1920.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.flex-item {
+    text-align: center;
+    width: 380px;
+    height: 200px;
+    color: #fff;
+    padding: 30px;
+    background-color: rgba(39, 33, 33, 0.6);
+    border-radius: 25px;
+    box-shadow: 0 0 10px 1px #222;
+}
+
+.link {
+    text-decoration: none;
+    background-color: rgba(39, 33, 33, 0.8);
+    color: #aaa;
+    padding: 10px;
+    margin: 3px;
+}
+
+.title {
+    color: #fff;
+}
+
+
+.link:hover {
+    background-color: rgba(198, 16, 16, 1.0);
+    color: #fff;
+    box-shadow: 0 0 10px 1px #222;
+}
+
+.link:active {
+    box-shadow: 0 0 0 0 #222;
+}

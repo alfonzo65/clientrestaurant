@@ -1,37 +1,36 @@
-import {useState, useEffect, useContext } from 'react'
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
-
 function Providers({ title }) {
+  const [proveedores, setProveedores] = useState([]);
 
-  const { token } = useContext(UserContext);
-  const [ proveedores, setProveedores ] = useState([])
+  useEffect(() => {
+    cargarProveedores();
+  }, []);
 
-  useEffect(()=>{
-    cargarProveedores()
-  },[])
-
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
 
   async function cargarProveedores() {
-    const res = await fetch('https://luzpizstore.onrender.com/api/work/provedores',{
-      method:"GET",
-      mode:"cors",
-      headers:{
-        "content-type":"application/json",
-        Authorization: "Bearer " + token
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/work/provedores",
+      {
+        ...requestOptions,
+        method: "GET",
       }
-    })
-    const { success, data } = await res.json()
-    if( success )
-        setProveedores(data)
-    else
-      console.log("error interno")
+    );
+    const { success, data } = await res.json();
+    if (success) setProveedores(data);
+    else swal("Error en el servidor", "", "warning");
 
-    if( data.length === 0 )
-      swal("No hay Proveedores Registrados" )
+    if (data.length === 0) swal("No hay Proveedores Registrados");
   }
-
 
   return (
     <div className="container mt-2 rounded-1">
@@ -47,17 +46,15 @@ function Providers({ title }) {
               </tr>
             </thead>
             <tbody>
-              {
-                proveedores.map((proveedor)=>{
-                  return(
-                    <tr key={proveedor.rif}>
-                      <td>{proveedor.nombre}</td>
-                      <td>{proveedor.rif}</td>
-                      <td>{proveedor.numero}</td>
-                    </tr>
-                  )
-                })
-              }
+              {proveedores.map((proveedor) => {
+                return (
+                  <tr key={proveedor.rif}>
+                    <td>{proveedor.nombre}</td>
+                    <td>{proveedor.rif}</td>
+                    <td>{proveedor.numero}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

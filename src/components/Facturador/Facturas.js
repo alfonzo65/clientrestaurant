@@ -1,52 +1,47 @@
-import { useState, useContext, useEffect } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Facturas({ title }) {
-  const { token } = useContext(UserContext);
   const [choice, setChoice] = useState("");
   const [compras, setCompras] = useState([]);
   const [ventas, setVentas] = useState([]);
 
   useEffect(() => {
+    if (choice === "Compra") cargarCompras();
 
-    if( choice === "Compra")
-      cargarCompras();
-    
-    if( choice === "Venta")
-      cargarVentas();
+    if (choice === "Venta") cargarVentas();
   }, [choice]);
+
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
 
   async function cargarCompras() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/compras",
       {
+        ...requestOptions,
         method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
       }
     );
     const { success, data } = await res.json();
     if (!success) swal("Ocurrio un error al cargar las facturas");
     else setCompras(data);
 
-    if( data.length === 0 )
-      swal("No hay Facturas De Compras")
+    if (data.length === 0) swal("No hay Facturas De Compras");
   }
 
   async function cargarVentas() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas",
       {
+        ...requestOptions,
         method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
       }
     );
     const { success, data } = await res.json();
@@ -54,8 +49,7 @@ function Facturas({ title }) {
     if (!success) swal("Ocurrio un error al cargar las facturas");
     else setVentas(data);
 
-    if( data.length === 0 )
-      swal("No hay Facturas De Ventas")
+    if (data.length === 0) swal("No hay Facturas De Ventas");
   }
 
   function HandlerChoice(e) {
@@ -107,7 +101,7 @@ function Facturas({ title }) {
             <tbody>
               {choice === "Compra" &&
                 compras.map((compra) => {
-                  compra.fecha = compra.fecha.substring(0,10)
+                  compra.fecha = compra.fecha.substring(0, 10);
                   return (
                     <tr key={compra.id}>
                       <td>{compra.nombre}</td>
@@ -121,7 +115,7 @@ function Facturas({ title }) {
 
               {choice === "Venta" &&
                 ventas.map((venta) => {
-                  venta.fecha = venta.fecha.substring(0,10)
+                  venta.fecha = venta.fecha.substring(0, 10);
                   return (
                     <tr key={venta.id}>
                       <td>{venta.nombre}</td>

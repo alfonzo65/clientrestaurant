@@ -1,37 +1,47 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import Login from './components/Login.js'
-import Admin from './pages/Admin.js'
-import Facturador from './pages/Facturador.js'
-import Recepcion from './pages/Recepcion.js'
-import Proteccion from './components/Proteccion.js'
-import { BrowserRouter , Routes , Route} from 'react-router-dom'
+import Login from "./components/Login.js";
+import Admin from "./pages/Admin.js";
+import Facturador from "./pages/Facturador.js";
+import Recepcion from "./pages/Recepcion.js";
+import Proteccion from "./components/Proteccion.js";
+import Logout from './components/Logout.js'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-
   return (
-      <BrowserRouter>
+    <BrowserRouter>
       {/* inicia el login la peticion a la BDD */}
-        <Routes>
-          <Route index path="/" element={<Login/>}/>
-          {/* de acuerdo a su rol debe redireccionarlo a la ruta indicada */}
-          <Route  path="/admin/*" element={
+      <Routes>
+        <Route index path="/" element={<Login />} />
+        {/* de acuerdo a su rol debe redireccionarlo a la ruta indicada */}
+        <Route
+          path="/admin/*"
+          element={
             <Proteccion actor="admin">
-              <Admin/>
+              <Admin />
             </Proteccion>
-            }/>
-          <Route  path="/facturador/*" element={
+          }
+        />
+        <Route
+          path="/facturador/*"
+          element={
             <Proteccion actor="facturador">
-              <Facturador/>
+              <Facturador />
             </Proteccion>
-          }/>
-          <Route  path="/recepcion/*" element={
+          }
+        />
+        <Route
+          path="/recepcion/*"
+          element={
             <Proteccion actor="recepcion">
-              <Recepcion/>
+              <Recepcion />
             </Proteccion>
-          }/>
-          <Route  path="/*" element={<h1>Page not found 404</h1>}/>
-        </Routes>
-      </BrowserRouter>
+          }
+        />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/*" element={<h1>Page not found 404</h1>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

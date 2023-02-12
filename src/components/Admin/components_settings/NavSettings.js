@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function NavSettings() {
   return (
-    <div className="navbar nav_bar d-block mt-2">
+    <div className="navbar nav_bar d-block mt-2 barra_lateral">
       <div className="navbar_div">
         <Link className="nav-link" to="perfil">
           Mi Perfil

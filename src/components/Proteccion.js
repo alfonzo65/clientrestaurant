@@ -1,10 +1,9 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext.js";
-import { Navigate, Outlet } from "react-router-dom"
+
+import { Navigate } from "react-router-dom"
 
 function Proteccion({children,actor}){
 
-    const { rol } = useContext(UserContext)
+    const rol = sessionStorage.getItem("rol")
 
     if( rol !== actor )
         return <Navigate to="/"/>

@@ -1,9 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../context/UserContext.js";
+import { useEffect, useState } from "react";
 
 function Perfil({ title }) {
-
-  const { token } = useContext(UserContext)
 
   useEffect(()=>{
     cargarDatos()
@@ -15,7 +12,15 @@ function Perfil({ title }) {
     cedula:""
   })
 
-  // guarda los datos de los inputs del formulario
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   function handlerFormChange(e) {
     const name = e.target.name;
     const value = e.target.value;
@@ -23,14 +28,8 @@ function Perfil({ title }) {
   }
 
   async function cargarDatos(){
-    const data = await fetch('https://luzpizstore.onrender.com/api/users/me',{
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+    const data = await fetch('https://luzpizstore.onrender.com/api/users/me',
+    { ...requestOptions, method: "POST" } )
     const { user } = await data.json()
     setMisDatos({ 
       nombre: user.nombre,

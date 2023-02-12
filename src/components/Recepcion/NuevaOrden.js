@@ -1,10 +1,8 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 function NuevaOrden({ title }) {
-  const { token, rol } = useContext(UserContext);
   const [choice, setChoice] = useState("");
   const [pizzas, setPizzas] = useState([]);
   const [bebidas, setBebidas] = useState([]);
@@ -18,6 +16,15 @@ function NuevaOrden({ title }) {
     direccion_entrega: "",
     telefono: "",
   });
+
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
 
   // guarda los datos de los inputs del formulario
   function handlerFormChange(e) {
@@ -40,12 +47,8 @@ function NuevaOrden({ title }) {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/clientes/" + cedula,
       {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+        ...requestOptions,
+        method: "GET"
       }
     );
     const { success, message } = await res.json();
@@ -54,14 +57,14 @@ function NuevaOrden({ title }) {
       if (choice === "Orden") navigate("/recepcion/ordenes", { replace: true });
       else navigate("/recepcion/pedidos", { replace: true });
     } else {
-      navigate("/"+rol+"/newClient", {
+      navigate("/" + sessionStorage.getItem("rol") + "/newClient", {
         replace: true,
         state: {
           nombre: orden.nombre === "" ? "" : orden.nombre,
           cedula: orden.cliente_cedula === "" ? "" : orden.cliente_cedula,
           direccion: "",
           numero: orden.telefono === "" ? "" : orden.telefono,
-          type: choice
+          type: choice,
         },
       });
     } // fin else
@@ -84,13 +87,9 @@ function NuevaOrden({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/ordenes",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
@@ -115,21 +114,16 @@ function NuevaOrden({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/entregas",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
-      if (success){
-         await swal(message, "You clicked the button!", "success");
-         consultarClient(orden.cliente_cedula);
-      }else 
+      if (success) {
         await swal(message, "You clicked the button!", "success");
+        consultarClient(orden.cliente_cedula);
+      } else await swal(message, "You clicked the button!", "success");
     }
   }
 
@@ -197,12 +191,8 @@ function NuevaOrden({ title }) {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/pizzas",
       {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+        ...requestOptions,
+        method: "GET"
       }
     );
     const { data } = await datos.json();
@@ -214,12 +204,8 @@ function NuevaOrden({ title }) {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/bebidas",
       {
+        ...requestOptions,
         method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
       }
     );
     const { data } = await datos.json();

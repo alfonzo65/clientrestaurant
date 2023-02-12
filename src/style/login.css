@@ -15,9 +15,13 @@
     left: 0;
     right: 0;
     margin: auto;
-    bottom: 14rem;
+    bottom: 14.5rem;
     width: 120px;
     height: 70px;
+  }
+
+  .logo-login:hover{
+    box-shadow: 0 0 10px rgb(233, 19, 33);
   }
 
   .bg-pizza {
@@ -50,5 +54,14 @@
   }
 
   .boton_ingresar:hover {
-    background-color: rgb(214, 15, 28);
+    background-color: rgb(233, 19, 33);
+  }
+
+  .forgotten {
+    text-decoration: none;
+    color:rgb(188, 11, 23)
+  }
+
+  .forgotten:hover {
+    color: rgb(255, 41, 55);
   }

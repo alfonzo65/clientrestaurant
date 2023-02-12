@@ -3,7 +3,7 @@ import "../style/navigationAdmin.css";
 
 function Navbar() {
   return (
-    <nav className="container-fluid p-0 nav-bar text-center">
+    <nav className="container-fluid p-0 nav-bar text-center barra">
       <div className="nav-div">
         <Link className="nav-link" to="dashboard">
           <span className="material-symbols-outlined d-block">dashboard</span>
@@ -60,7 +60,7 @@ function Navbar() {
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="../logout">
           <span className="material-symbols-outlined d-block">logout</span>
           Log out
         </Link>
@@ -71,61 +71,3 @@ function Navbar() {
 
 export default Navbar;
 
-{
-  /*
-
-  <div className="nav-bar">
-      <ul className="nav flex-column text-center text-white">
-        <li className="nav-item">
-          <Link className="nav-link link-light d-block" to="/admin/dashboard">
-            <span className="material-symbols-outlined d-block">dashboard</span>
-            Dashboard
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="/admin/compras">
-            <span className="material-symbols-outlined d-block">
-              shopping_cart
-            </span>
-            Purchase
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="#">
-            <span className="material-symbols-outlined d-block">
-              attach_money
-            </span>
-            Sales
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="#">
-            <span className="material-symbols-outlined d-block">
-              directions_bike
-            </span>
-            Delivery
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="#">
-            <span className="material-symbols-outlined d-block">send</span>
-            Envios
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="#">
-            <span className="material-symbols-outlined d-block">settings</span>
-            Settings
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link link-light" to="#">
-            <span className="material-symbols-outlined d-block">logout</span>
-            Log out
-          </Link>
-        </li>
-      </ul>
-    </div>
-
-*/
-}

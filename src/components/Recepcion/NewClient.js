@@ -1,11 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
-import { UserContext } from "../../context/UserContext.js";
 import swal from "sweetalert";
 
 function NewClient({ title }) {
-  const { token } = useContext(UserContext);
   const { state } = useLocation()
   const [ newClient, setNewClient ] = useState({
     cedula:"",
@@ -22,7 +19,17 @@ function NewClient({ title }) {
     setNewClient({ ...newClient, [name]:value})
   }
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   useEffect(()=>{
+    document.getElementById("field_cedula").disabled = false;
     function verifyState(){
       if( state ){
         setNewClient({
@@ -31,6 +38,7 @@ function NewClient({ title }) {
           direccion: state.direccion,
           numero: state.numero
         })
+        document.getElementById("field_cedula").disabled = true;
         setType(state.type)
       }
     } 
@@ -41,13 +49,7 @@ function NewClient({ title }) {
     e.preventDefault()
     const data = await JSON.stringify(newClient)
     const res = await fetch('https://luzpizstore.onrender.com/api/work/clientes',{
-      method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: data
+       ...requestOptions, method: "POST", body: data
       })
       const { success, message } = await res.json()
       if( success ){
@@ -79,18 +81,12 @@ function NewClient({ title }) {
                 value={ newClient.nombre === "" ? "" : newClient.nombre }
                 required
               />
-              {/* <input
-                type="text"
-                className="form-control bg-dark text-white"
-                placeholder="Apellido"
-                maxLength="18"
-                required
-              /> */}
             </div>
             <div className="input-group my-2 text-center">
               <input
                 type="text"
                 pattern="(V)[0-9]+"
+                id="field_cedula"
                 className="form-control bg-dark text-white"
                 placeholder="Cedula ej: V12345678"
                 name="cedula"

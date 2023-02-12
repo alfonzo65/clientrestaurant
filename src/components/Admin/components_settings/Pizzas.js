@@ -1,20 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../context/UserContext.js";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
 function Pizzas({ title }) {
-  const { token } = useContext(UserContext);
   const [misPizzas, setMisPizzas] = useState([]);
-  const [ newPizza, setNewPizza ] = useState({
-    nombre:"",
-    precio:"",
-    id:""
-  })
+  const [newPizza, setNewPizza] = useState({
+    nombre: "",
+    precio: "",
+    id: "",
+  });
 
   useEffect(() => {
     cargarPizzas();
-    document.getElementById("boton_edit").disabled = true
+    document.getElementById("boton_edit").disabled = true;
+    document.getElementById("boton_cancelar").disabled = true;
   }, []);
+
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
 
   function handlerFormChange(e) {
     const name = e.target.name;
@@ -23,92 +31,111 @@ function Pizzas({ title }) {
   }
 
   // crear nueva pizza
-  async function createNewPizza(e){
-    e.preventDefault()
-    const data = await JSON.stringify({nombre:newPizza.nombre, precio:newPizza.precio})
-    const res = await fetch('https://luzpizstore.onrender.com/api/menu/pizzas',{
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: data
-    })
-    const { success } = await res.json()
-    if( success === 1 ){
-      await swal( "Pizza Registrada Con Exito!", "You clicked the button!", "success" )
-       setPizza({nombre:"",precio:"",id:""})
-       cargarPizzas()
-    }else{
-      await swal( "Ocurrio un error al Intentar Registrar La Pizza!", "You clicked the button!", "warning" )
+  async function createNewPizza(e) {
+    e.preventDefault();
+    const data = await JSON.stringify({
+      nombre: newPizza.nombre,
+      precio: newPizza.precio,
+    });
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      { ...requestOptions, method: "POST", body: data }
+    );
+    const { success } = await res.json();
+    if (success === 1) {
+      await swal(
+        "Pizza Registrada Con Exito!",
+        "You clicked the button!",
+        "success"
+      );
+      setPizza({ nombre: "", precio: "", id: "" });
+      cargarPizzas();
+    } else {
+      await swal(
+        "Ocurrio un error al Intentar Registrar La Pizza!",
+        "You clicked the button!",
+        "warning"
+      );
     }
   }
 
   // eliminar una pizza
-  async function deletePizza( pizza_id ){
-    const data = await JSON.stringify({id:pizza_id})
-    const res = await fetch('https://luzpizstore.onrender.com/api/menu/pizzas',{
-        method: "DELETE",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: data
-    })
-    const { success , message } = await res.json()
-    if( success === 1 ){
-      await swal( message ,"You clicked the button!", "success" )
-      cargarPizzas()
-    }else{
-      await swal( message + ", error al intentar Eliminar la Pizza" ,"You clicked the button!", "warning" )
+  async function deletePizza(pizza_id) {
+    const data = await JSON.stringify({ id: pizza_id });
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      { ...requestOptions, method: "DELETE", body: data }
+    );
+    const { success, message } = await res.json();
+    if (success === 1) {
+      await swal(message, "You clicked the button!", "success");
+      cargarPizzas();
+    } else {
+      await swal(
+        message + ", error al intentar Eliminar la Pizza",
+        "You clicked the button!",
+        "warning"
+      );
     }
   }
 
   // establece una pizza
-  function setPizza( pizza ){
-    setNewPizza( pizza );
+  function setPizza(pizza) {
+    setNewPizza(pizza);
+  }
+
+  function validarCampos() {
+    return newPizza.nombre === "" || newPizza.precio === "";
   }
 
   // actualiza una pizza
-  async function updatePizza(){
-    const data = await JSON.stringify({ nombre: newPizza.nombre, precio:newPizza.precio , id: newPizza.id})
-    const res = await fetch('https://luzpizstore.onrender.com/api/menu/pizzas',{
-      method: "PATCH",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: data
-    })
-    const { success , message } = await res.json()
-    if( success === 1 ){
-      await swal( message ,"You clicked the button!", "success" )
-      setPizza({nombre:"",precio:"",id:""})
-      document.getElementById("boton_edit").disabled = true
-      document.getElementById("boton_submit").disabled = false
-      cargarPizzas()
-    }else{
-      await swal( message + ", error al intentar Actualizar la Pizza" ,"You clicked the button!", "warning" )
+  async function updatePizza() {
+    if (validarCampos()) {
+      await swal("Asegure de llenar todos los campos!", "", "warning");
+      return;
+    }
+    const data = await JSON.stringify({
+      nombre: newPizza.nombre,
+      precio: newPizza.precio,
+      id: newPizza.id,
+    });
+    const res = await fetch(
+      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      { ...requestOptions, method: "PATCH", body: data });
+    const { success, message } = await res.json();
+    if (success) {
+      await swal(message, "You clicked the button!", "success");
+      setPizza({ nombre: "", precio: "", id: "" });
+      document.getElementById("boton_edit").disabled = true;
+      document.getElementById("boton_cancelar").disabled = true;
+      document.getElementById("boton_submit").disabled = false;
+      cargarPizzas();
+    } else {
+      await swal(
+        message + ", error al intentar Actualizar la Pizza",
+        "You clicked the button!",
+        "warning"
+      );
     }
   }
 
   async function cargarPizzas() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/pizzas",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+      { ...requestOptions, method: "GET"});
     const { data } = await datos.json();
     setMisPizzas(data);
+  }
+
+  function cancelarPizza() {
+    setNewPizza({
+      nombre: "",
+      precio: "",
+      id: "",
+    });
+    document.getElementById("boton_edit").disabled = true;
+    document.getElementById("boton_cancelar").disabled = true;
+    document.getElementById("boton_submit").disabled = false;
   }
 
   return (
@@ -130,17 +157,24 @@ function Pizzas({ title }) {
                   <td>{pizza.nombre}</td>
                   <td>{pizza.precio}$</td>
                   <td>
-                    <button className="boton_edit"
-                      onClick={()=>{
-                        setPizza(pizza)
-                        document.getElementById("boton_edit").disabled = false
-                        document.getElementById("boton_submit").disabled = true
+                    <button
+                      className="boton_edit"
+                      onClick={() => {
+                        setPizza(pizza);
+                        document.getElementById("boton_edit").disabled = false;
+                        document.getElementById("boton_submit").disabled = true;
+                        document.getElementById(
+                          "boton_cancelar"
+                        ).disabled = false;
                       }}
                     >
-                      <span className="material-symbols-outlined">settings</span>
+                      <span className="material-symbols-outlined">
+                        settings
+                      </span>
                     </button>
-                    <button className="boton_delete"
-                      onClick={()=>deletePizza(pizza.id)}
+                    <button
+                      className="boton_delete"
+                      onClick={() => deletePizza(pizza.id)}
                     >
                       <span className="material-symbols-outlined">delete</span>
                     </button>
@@ -160,9 +194,10 @@ function Pizzas({ title }) {
               type="text"
               className="form-control bg-dark text-white"
               placeholder="Nombre De La Pizza"
-              value={( newPizza.nombre === "" ? "" : newPizza.nombre )}
+              value={newPizza.nombre === "" ? "" : newPizza.nombre}
               name="nombre"
               onChange={handlerFormChange}
+              required
             />
             <input
               type="number"
@@ -171,25 +206,37 @@ function Pizzas({ title }) {
               step={0.1}
               className="form-control bg-dark text-white"
               placeholder="Precio"
-              value={( newPizza.precio === "" ? "" : newPizza.precio )}
+              value={newPizza.precio === "" ? "" : newPizza.precio}
               name="precio"
+              required
               onChange={handlerFormChange}
             />
           </div>
-          <div className="input-group my-2 text-center">
-            <input
-              type="submit"
-              id="boton_submit"
-              className="btn btn-outline-success"
-              value="Registrar Pizza"
-            />
-            <input
+          <div className="btn-group my-2 text-center">
+            <button type="submit" id="boton_submit" className="btn btn-success">
+              Registrar Pizza
+            </button>
+            <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn-danger"
+              id="boton_cancelar"
+              value="Cancelar"
+              onClick={() => {
+                cancelarPizza();
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
               id="boton_edit"
-              value="Actualizar Pizza"
-              onClick={()=>{updatePizza()}}
-            />
+              onClick={() => {
+                updatePizza();
+              }}
+            >
+              Actualizar Pizza
+            </button>
           </div>
         </form>
       </div>

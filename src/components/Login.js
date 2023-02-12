@@ -1,19 +1,27 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../style/login.css"
 import logo from '../img/pizza-6682514_640.png'
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext.js";
+import { Link } from "react-router-dom";
 
 function Login() {
-  const { setUserName, setUserRol, setUserToken, user, rol } =
-    useContext(UserContext);
+  const [ user, setUser ] = useState("")
   const [clave, setClave] = useState("");
 
   let navigate = useNavigate();
 
+  useEffect(()=>{
+    isAutenticate()
+  }, [])
+
+  function isAutenticate(){
+    if( sessionStorage.getItem("rol") && sessionStorage.getItem("token") )
+      navigate( sessionStorage.getItem("rol") )
+  }
+
   function handlerUser(e) {
-    setUserName(e.target.value);
+    setUser(e.target.value);
   }
 
   function handlerPassword(e) {
@@ -44,8 +52,8 @@ function Login() {
     const { success, results, token } = await resp.json();
 
     if (success) {
-      await setUserRol(results.rol);
-      await setUserToken(token);
+      sessionStorage.setItem("token", token );
+      sessionStorage.setItem("rol", results.rol)
       navigate(results.rol + "/*", { replace: true });
     }else{
       console.log("email or password invalid")
@@ -60,7 +68,7 @@ function Login() {
         >
           <img src={logo} className="logo-login"></img>
           <form className="text-center mt-4" onSubmit={handlerSubmit}>
-            <div className="mb-3">
+            <div className="mb-2">
               <input
                 type="text"
                 className="text-center field"
@@ -76,6 +84,10 @@ function Login() {
                 placeholder="password"
                 onChange={handlerPassword}
               />
+              <div id="emailHelp" className="form-text text-white p-0 m-0"><Link 
+              className="forgotten"
+              
+              >¿olvido su contrasenia?</Link></div>
             </div>
             <input type="submit" className="boton_ingresar" value="Ingresar" />
           </form>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function NavbarRecepcion() {
   return (
-    <nav className="container-fluid p-0 nav-bar text-center">
+    <nav className="container-fluid p-0 nav-bar text-center barra">
       <div className="nav-div">
         <Link className="nav-link" to="menu">
           <span className="material-symbols-outlined d-block">menu_book</span>
@@ -39,7 +39,7 @@ function NavbarRecepcion() {
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="../logout">
           <span className="material-symbols-outlined d-block">logout</span>
           Log out
         </Link>

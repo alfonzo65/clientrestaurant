@@ -1,11 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext.js";
 import swal from "sweetalert";
 
 function NewInvoice({ title }) {
   const navigate = useNavigate();
-  const { token, rol } = useContext(UserContext);
   const [choice, setChoice] = useState("");
   const [verificado, setVerificado] = useState(false);
   const [activarForm, setActivarForm] = useState(false);
@@ -18,6 +16,15 @@ function NewInvoice({ title }) {
     telefono: "",
     direccion: "",
   });
+
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
 
   useEffect(() => {}, []);
 
@@ -44,13 +51,9 @@ function NewInvoice({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/provedores",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
@@ -59,7 +62,7 @@ function NewInvoice({ title }) {
         console.log(message);
       } else {
         swal(message, "click in button ok please", "warning");
-        navigate("/" + rol + "/providers");
+        navigate("/" + sessionStorage.getItem("rol") + "/providers");
       }
     }
 
@@ -74,13 +77,9 @@ function NewInvoice({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/clientes",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
@@ -88,7 +87,7 @@ function NewInvoice({ title }) {
         console.log(message);
       } else {
         swal(message, "click in button ok please", "warning");
-        navigate("/" + rol + "/customers");
+        navigate("/" + sessionStorage.getItem("rol") + "/customers");
       }
     }
 
@@ -102,19 +101,15 @@ function NewInvoice({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/compras",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
       if (success) {
         swal(message)
-        navigate("/" + rol + "/facturas");
+        navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Compra");
       }
@@ -130,19 +125,15 @@ function NewInvoice({ title }) {
       const res = await fetch(
         "https://luzpizstore.onrender.com/api/work/ventas",
         {
+          ...requestOptions,
           method: "POST",
-          mode: "cors",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: data,
+          body: data
         }
       );
       const { success, message } = await res.json();
       if (success) {
         swal(message)
-        navigate("/" + rol + "/facturas");
+        navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Venta");
       }
@@ -164,12 +155,8 @@ function NewInvoice({ title }) {
       "https://luzpizstore.onrender.com/api/work/provedores/" +
         factura.documento,
       {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+        ...requestOptions,
+        method: "GET"
       }
     );
     const { success } = await res.json();
@@ -188,12 +175,8 @@ function NewInvoice({ title }) {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/clientes/" + factura.documento,
       {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
+        ...requestOptions,
+        method: "GET"
       }
     );
     const { success } = await res.json();
@@ -220,7 +203,7 @@ function NewInvoice({ title }) {
       telefono: "",
       direccion: "",
     });
-    navigate("/" + rol + "/facturas", { replace: true });
+    navigate("/" + sessionStorage.getItem("rol") + "/facturas", { replace: true });
   }
 
   return (

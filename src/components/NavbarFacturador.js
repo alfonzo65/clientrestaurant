@@ -36,7 +36,7 @@ function NavbarFacturador() {
       </div>
 
       <div className="nav-div">
-        <Link className="nav-link" to="#">
+        <Link className="nav-link" to="../logout">
           <span className="material-symbols-outlined d-block">logout</span>
           Log out
         </Link>

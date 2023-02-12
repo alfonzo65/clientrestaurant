@@ -1,31 +1,34 @@
-import { useEffect, useContext, useState } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
 function Ordenes({ title }) {
-  const { token } = useContext(UserContext);
   const [pedidos, setPedidos] = useState([]);
 
   useEffect(() => {
     cargarPedidos();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarPedidos() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/work/entregas",
       {
+        ...requestOptions,
         method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
       }
     );
     const { success, data } = await datos.json();
     if (success) setPedidos(data);
 
-    if (data.length === 0) swal("No hay Pedidos", "", "warning");
+    if (data.length === 0) await swal("No hay Pedidos", "", "warning");
   }
 
   async function cancelarPedido(idPedido) {
@@ -33,39 +36,31 @@ function Ordenes({ title }) {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/entregas",
       {
+        ...requestOptions,
         method: "DELETE",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
         body: data,
       }
     );
     const { success, message } = await res.json();
-    if (success) swal(message, "You clicked the button!", "success");
-    else swal(message, "You clicked the button!", "warning");
+    if (success) await swal(message, "You clicked the button!", "success");
+    else await swal(message, "You clicked the button!", "warning");
 
     cargarPedidos();
   }
 
-  async function confirmarEntrega( idPedido ) {
+  async function confirmarEntrega(idPedido) {
     const data = await JSON.stringify({ id: idPedido });
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/confirmar",
       {
+        ...requestOptions,
         method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
         body: data,
       }
     );
     const { success, message } = await res.json();
-    if (success) swal(message, "You clicked the button!", "success");
-    else swal(message, "You clicked the button!", "warning");
+    if (success) await swal(message, "You clicked the button!", "success");
+    else await swal(message, "You clicked the button!", "warning");
 
     cargarPedidos();
   }
@@ -77,26 +72,38 @@ function Ordenes({ title }) {
         <div className="col-sm-12 text-center text-white">
           <div className="grid-container">
             {pedidos.map((pedido) => {
+              let list1 = pedido.pizzas.split(",");
+              let list2 = pedido.bebidas.split(",");
+              list1.pop();
+              list2.pop();
               return (
                 <div className="text-center grid-item" key={pedido.id}>
                   <div className="pedido">
                     <h5 className="text-center titlePedido rounded-2">
                       <i>{pedido.nombre}</i>
                     </h5>
-                    <p className="p-0 m-0">
-                      <i>Pizzas</i>
-                    </p>
-                    <p className="p-0 m-0">
-                      <i>Bebidas</i>
-                    </p>
+                    {list1.map((pizzaName) => {
+                      return (
+                        <p className="p-0 m-0" key={list1.indexOf(pizzaName)}>
+                          <i>{pizzaName}</i>
+                        </p>
+                      );
+                    })}
+                    {list2.map((bebidaName) => {
+                      return (
+                        <p className="p-0 m-0" key={list2.indexOf(bebidaName)}>
+                          <i>{bebidaName}</i>
+                        </p>
+                      );
+                    })}
                     <i className="d-block">
                       Direccion:{pedido.direccion_entrega}
                     </i>
                     <i className="d-block">telefono:{pedido.telefono}</i>
-                    <button 
+                    <button
                       className="btnDone"
                       onClick={() => confirmarEntrega(pedido.id)}
-                      >
+                    >
                       <span className="material-symbols-outlined">done</span>
                     </button>
                     <button

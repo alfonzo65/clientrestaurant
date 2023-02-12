@@ -7,6 +7,7 @@ import Menu from "../components/Admin/Menu.js";
 import Ordenes from "../components/Admin/Ordenes.js";
 import Delivery from "../components/Admin/Delivery.js";
 import Settings from '../components/Admin/Settings.js'
+import Logout from '../components/Logout.js'
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -16,6 +17,7 @@ import "../style/purchase.css";
 import "../style/menu.css";
 import "../style/ordenes.css";
 import "../style/settings.css"
+import "../style/logout.css"
 
 function Admin() {
   let navigate = useNavigate();

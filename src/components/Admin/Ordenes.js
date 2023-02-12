@@ -1,28 +1,26 @@
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
-
-
 function Ordenes({ title }) {
-  const { token } = useContext(UserContext);
   const [ordenes, setOrdenes] = useState([]);
 
   useEffect(() => {
     cargarOrdenes();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarOrdenes() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/work/ordenes",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await datos.json();
     if (success) 
@@ -33,24 +31,13 @@ function Ordenes({ title }) {
   }
 
   async function confirmarOrden(idOrden) {
-    console.log(ordenes)
     const data = await JSON.stringify({ id: idOrden });
-    console.log(data);
     // peticion a la api
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ordenes",
-      {
-        method: "DELETE",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: data,
-      }
+      { ...requestOptions, method: "DELETE", body:data }
     );
     const { success, message } = await res.json();
-    console.log(success, message)
     if (success) await swal(message, "You clicked the button!", "success");
     else
       await swal(
@@ -69,7 +56,7 @@ function Ordenes({ title }) {
         <div className="col-md-12 text-white">
           <div className="grid-container">
             {ordenes.map((orden) => {
-              // convierte las pizzas a un array
+              // convierte las pizzas y bebidas a un array donde cada posicion es un nombre
               let list1 = orden.pizzas.split(",");
               let list2 = orden.bebidas.split(",");
               list1.pop();

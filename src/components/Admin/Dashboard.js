@@ -1,8 +1,6 @@
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 
 function Dashboard({ title }) {
-  const { token } = useContext(UserContext);
   const [compras, setCompras] = useState(null);
   const [ventas, setVentas] = useState(null);
   const [pedidos, setPedidos] = useState(null);
@@ -15,17 +13,19 @@ function Dashboard({ title }) {
     ordenesTotal();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function comprasTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/compras/total",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {
@@ -36,14 +36,7 @@ function Dashboard({ title }) {
   async function ventasTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas/total",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {
@@ -54,14 +47,7 @@ function Dashboard({ title }) {
   async function pedidosTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/confirmados/count",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {
@@ -72,16 +58,8 @@ function Dashboard({ title }) {
   async function ordenesTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas/count",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
-
     const { success, data } = await res.json();
     if (success) {
       setOrdenes(data);
@@ -92,7 +70,7 @@ function Dashboard({ title }) {
     <>
       <div className="container mt-2 rounded-1">
         <div className="row">
-          <h2 className="titleContent p-2 text-white rounded-2">{title}</h2>
+          <h2 className="titleContent p-2 text-white rounded-2">{ title }</h2>
 
           <div className="col-md-6">
             <div className="card m-1 sales-card rounded-4">

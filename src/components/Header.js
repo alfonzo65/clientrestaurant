@@ -1,9 +1,6 @@
 import "../style/navigationAdmin.css";
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext.js";
 
 function Header() {
-  const { rol } = useContext(UserContext);
 
   return (
     <header className="container-fluid">
@@ -13,7 +10,7 @@ function Header() {
               monitoring
             </span>
           <h2 className="text-center">
-            Welcome {rol}
+            Welcome { sessionStorage.getItem("rol") }
           </h2>
         </div>
       </div>

@@ -13,17 +13,19 @@ function Menu({ title }) {
     cargarPizzas();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarPizzas() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/pizzas",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();
     setPizzas(data);
@@ -32,14 +34,7 @@ function Menu({ title }) {
   async function cargarBebidas() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/bebidas",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();
     setBebidas(data);

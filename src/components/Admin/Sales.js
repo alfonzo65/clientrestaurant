@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Sales({ title }) {
-  const { token } = useContext(UserContext);
   const [facturas, setFacturas] = useState([]);
   const [ventas, setVentas] = useState(null);
   const [contador, setContador] = useState(null);
@@ -13,20 +11,21 @@ function Sales({ title }) {
     ventasTotal();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarVentas() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
-
     if (!success) swal("Ocurrio un error al cargar las facturas");
     else {
       setFacturas(data);
@@ -39,14 +38,7 @@ function Sales({ title }) {
   async function ventasTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas/total",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {

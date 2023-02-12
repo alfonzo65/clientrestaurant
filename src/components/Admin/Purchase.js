@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Purchase({ title }) {
-  const { token } = useContext(UserContext);
   const [facturas, setFacturas] = useState([]);
   const [compras, setCompras] = useState(null);
   const [contador, setContador] = useState(0);
@@ -13,20 +11,23 @@ function Purchase({ title }) {
     comprasTotal();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarCompras() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/compras",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
-    if (!success) swal("Ocurrio un error al cargar las facturas");
+    if (!success)
+      swal("Ocurrio un error en el servidor al cargar las facturas");
     else {
       setFacturas(data);
       setContador(data.length);
@@ -38,14 +39,7 @@ function Purchase({ title }) {
   async function comprasTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/compras/total",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {
@@ -61,7 +55,7 @@ function Purchase({ title }) {
           <div className="encabezado">
             <ul className="encabezado_ul">
               <li>Compras Realizadas: {contador ? contador : 0}</li>
-              <li>Monto Total: {compras ? compras : 0 }$</li>
+              <li>Monto Total: {compras ? compras : 0}$</li>
             </ul>
           </div>
 
@@ -76,7 +70,7 @@ function Purchase({ title }) {
                 <th>Fecha</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {facturas.map((compra) => {
                 compra.fecha = compra.fecha.substring(0, 10);
                 return (

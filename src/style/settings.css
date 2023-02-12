@@ -11,6 +11,8 @@
     box-shadow: 1px 1px 4px #222;
     margin: 0;
     padding: 0;
+    position: sticky;
+    top: 80px;
 }
 
 .users_table {

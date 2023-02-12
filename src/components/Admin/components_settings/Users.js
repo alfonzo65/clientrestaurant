@@ -1,9 +1,8 @@
-import { UserContext } from "../../../context/UserContext.js";
-import { useContext, useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
 function Users({ title }) {
-  const { token } = useContext(UserContext);
   const [usuarios, setUsuarios] = useState([]);
   const [newUser, setNewUser] = useState({
     nombre: "",
@@ -19,6 +18,15 @@ function Users({ title }) {
     document.getElementById("boton_edit").disabled = true;
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   // guarda los datos de los inputs del formulario
   function handlerFormChange(e) {
     const name = e.target.name;
@@ -31,17 +39,10 @@ function Users({ title }) {
   async function handlerUpdateUser(user) {
     setNewUser(user);
     const datos = await JSON.stringify(newUser);
-    const data = await fetch("https://luzpizstore.onrender.com/api/users", {
-      method: "PATCH",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: datos,
-    });
+    const data = await fetch("https://luzpizstore.onrender.com/api/users", 
+    { ...requestOptions, method: "PATCH", body:datos });
     const { success, message } = await data.json();
-    if (success === 1) {
+    if (success) {
       swal(message, "You clicked the button!", "success");
       handlerReset();
       cargarUsuarios();
@@ -60,17 +61,10 @@ function Users({ title }) {
   async function handlerSubmit(e) {
     e.preventDefault();
     const new_user = await JSON.stringify(newUser);
-    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: new_user,
-    });
+    const res = await fetch("https://luzpizstore.onrender.com/api/users",
+    { ...requestOptions, method: "POST", body: new_user });
     const result = await res.json();
-    if (result.success === 1) {
+    if (result.success) {
       await swal(
         "Usuario Registrado Exitosamente!",
         "You clicked the button!",
@@ -80,7 +74,7 @@ function Users({ title }) {
       cargarUsuarios();
     } else {
       await swal(
-        "Este Email o Cedula ya Existe!",
+        "Este Email o Cedula ya esta Registrado!",
         "You clicked the button!",
         "warning"
       );
@@ -90,21 +84,15 @@ function Users({ title }) {
   // eliminar un usuario
   async function handlerDelete(id) {
     const data = await JSON.stringify({ cedula: id });
-    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
-      method: "DELETE",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: data,
-    });
+    const res = await fetch("https://luzpizstore.onrender.com/api/users", 
+    { ...requestOptions, method: "DELETE", body: data});
     const respuesta = await res.json();
-    if (respuesta.success === 1) {
+    if (respuesta.success) {
       await swal(respuesta.message, "You clicked the button!", "success");
       cargarUsuarios();
+    } else{
+      await swal("Error interno en el servidor")
     }
-    // console.log(respuesta);
   }
 
   // reinicia los inputs en estado vacio y desactiva los botones cancel y edit
@@ -121,19 +109,9 @@ function Users({ title }) {
     });
   }
 
-  // function mostrarDatos(){
-  //   console.log(newUser)
-  // }
-
   async function cargarUsuarios() {
-    const datos = await fetch("https://luzpizstore.onrender.com/api/users", {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    });
+    const datos = await fetch("https://luzpizstore.onrender.com/api/users", 
+    { ...requestOptions, method: "GET" });
     const arrayUsuarios = await datos.json();
     // aqui manejo la contrasenia
     setUsuarios(arrayUsuarios.data); /// modificado
@@ -192,7 +170,7 @@ function Users({ title }) {
           </tbody>
         </table>
       </div>
-      <div className="col-md-12 text-white">
+      <div className="col-md-12 text-white div_form">
         <form onSubmit={handlerSubmit}>
           <h2 className="text-center">Datos del usuario</h2>
 
@@ -251,7 +229,7 @@ function Users({ title }) {
               <option value="recepcion">Recepcion</option>
             </select>
           </div>
-          <div className="btn-group my-2 text-center">
+          <div className="btn-group my-2 text-center" >
             <button
               type="submit"
               className="btn btn-success btnU"

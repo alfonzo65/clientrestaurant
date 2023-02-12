@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Delivery({ title }) {
-  const { token } = useContext(UserContext);
   const [pedidos, setPedidos] = useState([]);
   const [total, setTotal] = useState(null);
 
@@ -12,17 +10,19 @@ function Delivery({ title }) {
     pedidosTotal();
   }, []);
 
+  const requestOptions = {
+    method: "",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
   async function cargarEntregas() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/confirmados",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) setPedidos(data);
@@ -32,14 +32,7 @@ function Delivery({ title }) {
   async function pedidosTotal() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/confirmados/count",
-      {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
+      { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
     if (success) {
