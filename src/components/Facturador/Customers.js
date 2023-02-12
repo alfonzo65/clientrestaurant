@@ -1,9 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Customers({ title }) {
-  const { token } = useContext(UserContext);
   const [clientes, setClientes] = useState([]);
 
   useEffect(() => {

@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/UserContext.js";
+import { useEffect, useState } from "react";
 
 function Menu({ title }) {
-  const { token } = useContext(UserContext);
   const [pizzas, setPizzas] = useState([]);
   const [bebidas, setBebidas] = useState([]);
 
