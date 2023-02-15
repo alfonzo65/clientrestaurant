@@ -216,7 +216,7 @@ function NuevaOrden({ title }) {
     <div className="container mt-2 rounded-1">
       <div className="row">
         <select
-          className="form-select bg-dark text-white mb-2"
+          className="form-select-lg bg-dark text-white my-2"
           onChange={HandlerChoice}
         >
           <option value={""}>Selecciona el tipo de Encargo</option>

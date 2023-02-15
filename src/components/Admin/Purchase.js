@@ -5,6 +5,12 @@ function Purchase({ title }) {
   const [facturas, setFacturas] = useState([]);
   const [compras, setCompras] = useState(null);
   const [contador, setContador] = useState(0);
+  const [detalles, setDetalles] = useState({
+    proveedor:"",
+    descripcion: "",
+    total: 0,
+  });
+  const [mostrarDetalles, setMostrarDetalles] = useState(false);
 
   useEffect(() => {
     cargarCompras();
@@ -47,8 +53,16 @@ function Purchase({ title }) {
     } else console.log("error interno al consultar el total de compras");
   }
 
+  function mostrarResumen(purchase) {
+    setDetalles({ proveedor: purchase.rif, descripcion: purchase.descripcion, total: purchase.total });
+    setMostrarDetalles(true);
+  }
+
   return (
-    <div className="container mt-2 rounded-1">
+    <div
+      className="container mt-2 rounded-1 position-relative"
+      id="container_tabla"
+    >
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-12 text-white">
@@ -60,31 +74,63 @@ function Purchase({ title }) {
           </div>
 
           <h2 className="text-center mt-1">Resumen de Compras</h2>
-          <table className="table text-white text-center">
-            <thead className="table-dark">
-              <tr>
-                <th>Proveedor</th>
-                <th>Rif</th>
-                <th>Description</th>
-                <th>Monto a Pagar</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {facturas.map((compra) => {
-                compra.fecha = compra.fecha.substring(0, 10);
-                return (
-                  <tr key={compra.id}>
-                    <td>{compra.nombre}</td>
-                    <td>{compra.rif}</td>
-                    <td>{compra.descripcion}</td>
-                    <td>{compra.total}$</td>
-                    <td>{compra.fecha}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="tablero">
+            <table className="table text-white text-center">
+              <thead className="table-dark tablero_head">
+                <tr>
+                  <th>Proveedor</th>
+                  <th>Rif</th>
+                  <th className="ocultar">Description</th>
+                  <th className="ocultar">Monto a Pagar</th>
+                  <th>Fecha</th>
+                  <th className="mostrar">Detalles</th>
+                </tr>
+              </thead>
+              <tbody>
+                {facturas.map((compra) => {
+                  compra.fecha = compra.fecha.substring(0, 10);
+                  return (
+                    <tr key={compra.id}>
+                      <td>{compra.nombre}</td>
+                      <td>{compra.rif}</td>
+                      <td className="ocultar">{compra.descripcion}</td>
+                      <td className="ocultar">{compra.total}$</td>
+                      <td>{compra.fecha}</td>
+                      <td className="mostrar">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            mostrarResumen(compra);
+                          }}
+                        >
+                          ver
+                        </button>
+                      </td>
+                      {mostrarDetalles && (
+                        <div className="mostrar_div">
+                          <span
+                            className="boton_detalles_close"
+                            onClick={() => {
+                              setMostrarDetalles(false);
+                            }}
+                          >
+                            X
+                          </span>
+                          <h4>Detalles de la Compra</h4>
+                          <p>
+                            rif: {detalles.proveedor}<br/>
+                            Descripcion: {detalles.descripcion}
+                            <br />
+                            Monto a Pagar: {detalles.total}$
+                          </p>
+                        </div>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

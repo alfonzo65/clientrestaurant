@@ -60,13 +60,14 @@ function Facturas({ title }) {
     <div className="container mt-2 rounded-1">
       <div className="row">
         <select
-          className="form-select bg-dark text-white mb-2"
+          className="form-select-lg bg-dark text-white rounded-3 my-2"
           onChange={HandlerChoice}
         >
           <option value={""}>Selecciona el tipo de Factura</option>
           <option value="Compra">Compra</option>
           <option value="Venta">Venta</option>
         </select>
+
         <h2 className="subtitle p-2 text-white rounded-2">
           {title + (choice == "" ? "" : " De " + choice)}
         </h2>

@@ -17,3 +17,55 @@
    font-size: 20px;
    margin: 2px 40px;
  }
+
+.tablero {
+    max-height: 300px;
+    overflow-y: auto;
+ }
+
+ .tablero_head {
+  position: sticky;
+  top: 0;
+ }
+ 
+ .mostrar {
+  display: none;
+ }
+
+ .mostrar_div {
+  position: absolute;
+  width: 300px;
+  height: 150px;
+  max-height: 190px;
+   top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto; 
+  background-color: #222 !important;
+  border-radius: 20px;
+  box-shadow: 0 0 0 0.5px #fff !important;
+ }
+
+ .boton_detalles_close {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  background-color: #222;
+  padding: 5px;
+  border-radius: 20px;
+ }
+
+ .boton_detalles_close:hover {
+  background-color: #666;
+  cursor: pointer;
+ }
+
+ @media screen and (max-width: 900px){
+    .ocultar {
+      display: none;
+    }
+    .mostrar {
+      display: block;
+    }
+ }

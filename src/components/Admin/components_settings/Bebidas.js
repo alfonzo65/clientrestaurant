@@ -60,15 +60,15 @@ function Bebidas({ title }) {
     }
   }
 
-  function validarCampos(){
+  function validarCampos() {
     return newBebida.nombre === "" || newBebida.precio === "";
   }
 
   // actualizar bebida
   async function updateBebida() {
-    if( validarCampos() ){
-      await swal("Asegure de llenar todos los campos!", "" , "warning")
-      return
+    if (validarCampos()) {
+      await swal("Asegure de llenar todos los campos!", "", "warning");
+      return;
     }
     const data = await JSON.stringify({
       nombre: newBebida.nombre,
@@ -77,7 +77,8 @@ function Bebidas({ title }) {
     });
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/menu/bebidas",
-      { ...requestOptions, method: "PATCH", body: data });
+      { ...requestOptions, method: "PATCH", body: data }
+    );
     const { success, message } = await res.json();
     if (success) {
       await swal(message, "You clicked the button!", "success");
@@ -123,7 +124,8 @@ function Bebidas({ title }) {
   async function cargarBebidas() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/bebidas",
-      { ...requestOptions, method: "GET" });
+      { ...requestOptions, method: "GET" }
+    );
     const { data } = await datos.json();
     setMisBebidas(data);
   }
@@ -143,48 +145,58 @@ function Bebidas({ title }) {
     <div className="row users_table mt-2">
       <h2 className="text-center text-white p-2">{title}</h2>
       <div className="col-md-12">
-        <table className="table table-sm text-white text-center">
-          <thead className="table-dark">
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Accion</th>
-            </tr>
-          </thead>
-          <tbody>
-            {misBebidas.map((bebida) => {
-              return (
-                <tr key={bebida.id}>
-                  <td>{bebida.nombre}</td>
-                  <td>{bebida.precio}$</td>
-                  <td>
-                    <button
-                      className="boton_edit"
-                      onClick={() => {
-                        setBebida(bebida);
-                        document.getElementById("boton_submit").disabled = true;
-                        document.getElementById("boton_edit").disabled = false;
-                        document.getElementById("boton_cancelar").disabled = false;
-                      }}
-                    >
-                      <span className="material-symbols-outlined">
-                        settings
-                      </span>
-                    </button>
-                    <button
-                      className="boton_delete"
-                      onClick={() => {
-                        deleteBebida(bebida.id);
-                      }}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="tablero">
+          <table className="table table-sm text-white text-center">
+            <thead className="table-dark tablero_head">
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {misBebidas.map((bebida) => {
+                return (
+                  <tr key={bebida.id}>
+                    <td>{bebida.nombre}</td>
+                    <td>{bebida.precio}$</td>
+                    <td>
+                      <button
+                        className="boton_edit"
+                        onClick={() => {
+                          setBebida(bebida);
+                          document.getElementById(
+                            "boton_submit"
+                          ).disabled = true;
+                          document.getElementById(
+                            "boton_edit"
+                          ).disabled = false;
+                          document.getElementById(
+                            "boton_cancelar"
+                          ).disabled = false;
+                        }}
+                      >
+                        <span className="material-symbols-outlined">
+                          settings
+                        </span>
+                      </button>
+                      <button
+                        className="boton_delete"
+                        onClick={() => {
+                          deleteBebida(bebida.id);
+                        }}
+                      >
+                        <span className="material-symbols-outlined">
+                          delete
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="col-md-12 text-white">
         <form onSubmit={createNewBebida}>
@@ -212,11 +224,7 @@ function Bebidas({ title }) {
             />
           </div>
           <div className="btn-group my-2 text-center">
-            <button
-              type="submit"
-              id="boton_submit"
-              className="btn btn-success"
-            >
+            <button type="submit" id="boton_submit" className="btn btn-success">
               Registrar Bebida
             </button>
             <button
@@ -237,7 +245,9 @@ function Bebidas({ title }) {
               onClick={() => {
                 updateBebida();
               }}
-            >Actualizar Bebida</button>
+            >
+              Actualizar Bebida
+            </button>
           </div>
         </form>
       </div>

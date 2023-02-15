@@ -86,7 +86,7 @@ function Login() {
               />
               <div id="emailHelp" className="form-text text-white p-0 m-0"><Link 
               className="forgotten"
-              
+              to="forgottenPassword"
               >¿olvido su contrasenia?</Link></div>
             </div>
             <input type="submit" className="boton_ingresar" value="Ingresar" />

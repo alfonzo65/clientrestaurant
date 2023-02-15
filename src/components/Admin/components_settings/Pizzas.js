@@ -101,7 +101,8 @@ function Pizzas({ title }) {
     });
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/menu/pizzas",
-      { ...requestOptions, method: "PATCH", body: data });
+      { ...requestOptions, method: "PATCH", body: data }
+    );
     const { success, message } = await res.json();
     if (success) {
       await swal(message, "You clicked the button!", "success");
@@ -122,7 +123,8 @@ function Pizzas({ title }) {
   async function cargarPizzas() {
     const datos = await fetch(
       "https://luzpizstore.onrender.com/api/menu/pizzas",
-      { ...requestOptions, method: "GET"});
+      { ...requestOptions, method: "GET" }
+    );
     const { data } = await datos.json();
     setMisPizzas(data);
   }
@@ -142,48 +144,56 @@ function Pizzas({ title }) {
     <div className="row users_table mt-2">
       <h2 className="text-center text-white p-2">{title}</h2>
       <div className="col-md-12">
-        <table className="table table-sm text-white text-center">
-          <thead className="table-dark">
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Accion</th>
-            </tr>
-          </thead>
-          <tbody>
-            {misPizzas.map((pizza) => {
-              return (
-                <tr key={pizza.id}>
-                  <td>{pizza.nombre}</td>
-                  <td>{pizza.precio}$</td>
-                  <td>
-                    <button
-                      className="boton_edit"
-                      onClick={() => {
-                        setPizza(pizza);
-                        document.getElementById("boton_edit").disabled = false;
-                        document.getElementById("boton_submit").disabled = true;
-                        document.getElementById(
-                          "boton_cancelar"
-                        ).disabled = false;
-                      }}
-                    >
-                      <span className="material-symbols-outlined">
-                        settings
-                      </span>
-                    </button>
-                    <button
-                      className="boton_delete"
-                      onClick={() => deletePizza(pizza.id)}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="tablero">
+          <table className="table table-sm text-white text-center">
+            <thead className="table-dark tablero_head">
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {misPizzas.map((pizza) => {
+                return (
+                  <tr key={pizza.id}>
+                    <td>{pizza.nombre}</td>
+                    <td>{pizza.precio}$</td>
+                    <td>
+                      <button
+                        className="boton_edit"
+                        onClick={() => {
+                          setPizza(pizza);
+                          document.getElementById(
+                            "boton_edit"
+                          ).disabled = false;
+                          document.getElementById(
+                            "boton_submit"
+                          ).disabled = true;
+                          document.getElementById(
+                            "boton_cancelar"
+                          ).disabled = false;
+                        }}
+                      >
+                        <span className="material-symbols-outlined">
+                          settings
+                        </span>
+                      </button>
+                      <button
+                        className="boton_delete"
+                        onClick={() => deletePizza(pizza.id)}
+                      >
+                        <span className="material-symbols-outlined">
+                          delete
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="col-md-12 text-white">
         <form onSubmit={createNewPizza}>

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import swal from "sweetalert";
 
@@ -39,8 +38,11 @@ function Users({ title }) {
   async function handlerUpdateUser(user) {
     setNewUser(user);
     const datos = await JSON.stringify(newUser);
-    const data = await fetch("https://luzpizstore.onrender.com/api/users", 
-    { ...requestOptions, method: "PATCH", body:datos });
+    const data = await fetch("https://luzpizstore.onrender.com/api/users", {
+      ...requestOptions,
+      method: "PATCH",
+      body: datos,
+    });
     const { success, message } = await data.json();
     if (success) {
       swal(message, "You clicked the button!", "success");
@@ -61,8 +63,11 @@ function Users({ title }) {
   async function handlerSubmit(e) {
     e.preventDefault();
     const new_user = await JSON.stringify(newUser);
-    const res = await fetch("https://luzpizstore.onrender.com/api/users",
-    { ...requestOptions, method: "POST", body: new_user });
+    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
+      ...requestOptions,
+      method: "POST",
+      body: new_user,
+    });
     const result = await res.json();
     if (result.success) {
       await swal(
@@ -84,14 +89,17 @@ function Users({ title }) {
   // eliminar un usuario
   async function handlerDelete(id) {
     const data = await JSON.stringify({ cedula: id });
-    const res = await fetch("https://luzpizstore.onrender.com/api/users", 
-    { ...requestOptions, method: "DELETE", body: data});
+    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
+      ...requestOptions,
+      method: "DELETE",
+      body: data,
+    });
     const respuesta = await res.json();
     if (respuesta.success) {
       await swal(respuesta.message, "You clicked the button!", "success");
       cargarUsuarios();
-    } else{
-      await swal("Error interno en el servidor")
+    } else {
+      await swal("Error interno en el servidor");
     }
   }
 
@@ -110,8 +118,10 @@ function Users({ title }) {
   }
 
   async function cargarUsuarios() {
-    const datos = await fetch("https://luzpizstore.onrender.com/api/users", 
-    { ...requestOptions, method: "GET" });
+    const datos = await fetch("https://luzpizstore.onrender.com/api/users", {
+      ...requestOptions,
+      method: "GET",
+    });
     const arrayUsuarios = await datos.json();
     // aqui manejo la contrasenia
     setUsuarios(arrayUsuarios.data); /// modificado
@@ -121,54 +131,62 @@ function Users({ title }) {
     <div className="row users_table mt-2">
       <h2 className="text-center text-white p-2">{title}</h2>
       <div className="col-md-12">
-        <table className="table table-sm text-white text-center">
-          <thead className="table-dark">
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th>Cedula</th>
-              <th>Accion</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuarios.map((user) => {
-              return (
-                <tr key={user.cedula}>
-                  <td>{user.nombre}</td>
-                  <td>{user.email}</td>
-                  <td>{user.rol}</td>
-                  <td>{user.cedula}</td>
-                  <td>
-                    <button
-                      className="boton_edit"
-                      onClick={() => {
-                        document.getElementById("boton_crear").disabled = true;
-                        document.getElementById(
-                          "boton_cancelar"
-                        ).disabled = false;
-                        document.getElementById("boton_edit").disabled = false;
-                        setNewUser(user);
-                      }}
-                    >
-                      <span className="material-symbols-outlined">
-                        settings
-                      </span>
-                    </button>
-                    <button
-                      className="boton_delete"
-                      onClick={() => {
-                        handlerDelete(user.cedula);
-                      }}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="tablero">
+          <table className="table table-sm text-white text-center">
+            <thead className="table-dark tablero_head">
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Cedula</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((user) => {
+                return (
+                  <tr key={user.cedula}>
+                    <td>{user.nombre}</td>
+                    <td>{user.email}</td>
+                    <td>{user.rol}</td>
+                    <td>{user.cedula}</td>
+                    <td>
+                      <button
+                        className="boton_edit"
+                        onClick={() => {
+                          document.getElementById(
+                            "boton_crear"
+                          ).disabled = true;
+                          document.getElementById(
+                            "boton_cancelar"
+                          ).disabled = false;
+                          document.getElementById(
+                            "boton_edit"
+                          ).disabled = false;
+                          setNewUser(user);
+                        }}
+                      >
+                        <span className="material-symbols-outlined">
+                          settings
+                        </span>
+                      </button>
+                      <button
+                        className="boton_delete"
+                        onClick={() => {
+                          handlerDelete(user.cedula);
+                        }}
+                      >
+                        <span className="material-symbols-outlined">
+                          delete
+                        </span>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="col-md-12 text-white div_form">
         <form onSubmit={handlerSubmit}>
@@ -229,7 +247,7 @@ function Users({ title }) {
               <option value="recepcion">Recepcion</option>
             </select>
           </div>
-          <div className="btn-group my-2 text-center" >
+          <div className="btn-group my-2 text-center">
             <button
               type="submit"
               className="btn btn-success btnU"

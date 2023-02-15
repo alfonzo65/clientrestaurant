@@ -52,29 +52,31 @@ function Delivery({ title }) {
           </div>
 
           <h2 className="text-center mt-1">Resumen de Envios</h2>
-          <table className="table text-white text-center">
-            <thead className="table-dark">
-              <tr>
-                <th>Cliente</th>
-                <th>Cedula</th>
-                <th>Direccion de Entrega</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pedidos.map((pedido) => {
-                pedido.fecha = pedido.fecha.substring(0, 10);
-                return (
-                  <tr key={pedido.id}>
-                    <td>{pedido.nombre}</td>
-                    <td>{pedido.cedula}</td>
-                    <td>{pedido.direccion}</td>
-                    <td>{pedido.fecha}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="tablero">
+            <table className="table text-white text-center">
+              <thead className="table-dark tablero_head">
+                <tr>
+                  <th>Cliente</th>
+                  <th>Cedula</th>
+                  <th>Direccion de Entrega</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pedidos.map((pedido) => {
+                  pedido.fecha = pedido.fecha.substring(0, 10);
+                  return (
+                    <tr key={pedido.id}>
+                      <td>{pedido.nombre}</td>
+                      <td>{pedido.cedula}</td>
+                      <td>{pedido.direccion}</td>
+                      <td>{pedido.fecha}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
