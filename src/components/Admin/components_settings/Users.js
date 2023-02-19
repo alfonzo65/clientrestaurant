@@ -218,11 +218,10 @@ function Users({ title }) {
               className="form-control bg-dark text-white"
               placeholder="Password"
               name="contrasena"
+              value={ newUser.contrasena ? newUser.contrasena : "" }
               onChange={handlerFormChange}
-              value={newUser.contrasena === "" ? "" : newUser.contrasena}
               required
             />
-
             <input
               type="text"
               pattern="(V)[0-9]+"
@@ -247,7 +246,10 @@ function Users({ title }) {
               <option value="recepcion">Recepcion</option>
             </select>
           </div>
-          <div className="btn-group my-2 text-center">
+          <div className="alert alert-danger p-1 m-0 text-center" role="alert">
+            Si necesita modificar la clave de un usuario solo ingrese una nueva clave
+          </div>
+          <div className="btn-group my-1 text-center">
             <button
               type="submit"
               className="btn btn-success btnU"

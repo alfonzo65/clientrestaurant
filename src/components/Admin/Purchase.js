@@ -6,7 +6,7 @@ function Purchase({ title }) {
   const [compras, setCompras] = useState(null);
   const [contador, setContador] = useState(0);
   const [detalles, setDetalles] = useState({
-    proveedor:"",
+    proveedor: "",
     descripcion: "",
     total: 0,
   });
@@ -54,7 +54,11 @@ function Purchase({ title }) {
   }
 
   function mostrarResumen(purchase) {
-    setDetalles({ proveedor: purchase.rif, descripcion: purchase.descripcion, total: purchase.total });
+    setDetalles({
+      proveedor: purchase.rif,
+      descripcion: purchase.descripcion,
+      total: purchase.total,
+    });
     setMostrarDetalles(true);
   }
 
@@ -106,30 +110,31 @@ function Purchase({ title }) {
                           ver
                         </button>
                       </td>
-                      {mostrarDetalles && (
-                        <div className="mostrar_div">
-                          <span
-                            className="boton_detalles_close"
-                            onClick={() => {
-                              setMostrarDetalles(false);
-                            }}
-                          >
-                            X
-                          </span>
-                          <h4>Detalles de la Compra</h4>
-                          <p>
-                            rif: {detalles.proveedor}<br/>
-                            Descripcion: {detalles.descripcion}
-                            <br />
-                            Monto a Pagar: {detalles.total}$
-                          </p>
-                        </div>
-                      )}
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            {mostrarDetalles && (
+              <div className="mostrar_div text-center">
+                <span
+                  className="boton_detalles_close"
+                  onClick={() => {
+                    setMostrarDetalles(false);
+                  }}
+                >
+                  X
+                </span>
+                <h4>Detalles de la Compra</h4>
+                <p>
+                  rif: {detalles.proveedor}
+                  <br />
+                  Descripcion: {detalles.descripcion}
+                  <br />
+                  Monto a Pagar: {detalles.total}$
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

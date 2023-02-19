@@ -85,13 +85,13 @@ function Pizzas({ title }) {
   }
 
   function validarCampos() {
-    return newPizza.nombre === "" || newPizza.precio === "";
+    return newPizza.nombre === "" || ( newPizza.precio === "" || newPizza.precio < 0.1 ) ;
   }
 
   // actualiza una pizza
   async function updatePizza() {
     if (validarCampos()) {
-      await swal("Asegure de llenar todos los campos!", "", "warning");
+      await swal("Asegurese de rellenar los campos correctamente!", "", "warning");
       return;
     }
     const data = await JSON.stringify({

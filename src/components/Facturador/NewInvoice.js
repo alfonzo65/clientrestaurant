@@ -4,6 +4,10 @@ import swal from "sweetalert";
 
 function NewInvoice({ title }) {
   const navigate = useNavigate();
+  const [ordenes, setOrdenes] = useState([]);
+  const [pedidos, setPedidos] = useState([]);
+  const [sinfacturar, setSinFacturar] = useState(false);
+  const [tipo, setTipo] = useState("");
   const [choice, setChoice] = useState("");
   const [verificado, setVerificado] = useState(false);
   const [activarForm, setActivarForm] = useState(false);
@@ -15,6 +19,7 @@ function NewInvoice({ title }) {
     apellido: "",
     telefono: "",
     direccion: "",
+    id: "",
   });
 
   const requestOptions = {
@@ -26,7 +31,35 @@ function NewInvoice({ title }) {
     },
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    cargarOrdenes();
+    cargarPedidos();
+    setVerificado(false);
+    setActivarForm(false);
+    setFactura({
+      documento: "",
+      total: 0.0,
+      descripcion: "",
+      nombre: "",
+      apellido: "",
+      telefono: "",
+      direccion: "",
+      id: "",
+    });
+  }, [choice]);
+
+  function facturasPorCobrar(lista) {
+
+    if( sinfacturar )
+      return
+
+    for (let i = 0; i < lista.length; i++) {
+      if (lista[i].facturado === 0) {
+        setSinFacturar(true);
+        return;
+      }
+    }
+  }
 
   function HandlerChoice(e) {
     setChoice(e.target.value);
@@ -53,13 +86,13 @@ function NewInvoice({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
 
       if (success) {
-        console.log(message);
+        await swal(message)
       } else {
         swal(message, "click in button ok please", "warning");
         navigate("/" + sessionStorage.getItem("rol") + "/providers");
@@ -79,7 +112,7 @@ function NewInvoice({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
@@ -103,12 +136,12 @@ function NewInvoice({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
       if (success) {
-        swal(message)
+        await swal(message);
         navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Compra");
@@ -127,17 +160,62 @@ function NewInvoice({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
       if (success) {
-        swal(message)
+        swal(message);
         navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Venta");
       }
     }
+
+    if (factura.id) {
+      const data = await JSON.stringify({ id: factura.id });
+      const tipoDeEncargo = tipo === "Orden" ? "ordenes" : "entregas";
+      const res = await fetch(
+        "https://luzpizstore.onrender.com/api/work/" +
+          tipoDeEncargo +
+          "/facturar",
+        {
+          ...requestOptions,
+          method: "POST",
+          body: data,
+        }
+      );
+      const { success, message } = await res.json();
+      if (success) await swal(message, "", "success");
+    }
+
+    cargarOrdenes();
+    cargarPedidos();
+  }
+
+  async function cargarOrdenes() {
+    const datos = await fetch(
+      "https://luzpizstore.onrender.com/api/work/ordenes",
+      { ...requestOptions, method: "GET" }
+    );
+    const { success, data } = await datos.json();
+    if (success) setOrdenes(data);
+
+    if (data.length > 0) facturasPorCobrar(ordenes);
+  }
+
+  async function cargarPedidos() {
+    const datos = await fetch(
+      "https://luzpizstore.onrender.com/api/work/entregas",
+      {
+        ...requestOptions,
+        method: "GET",
+      }
+    );
+    const { success, data } = await datos.json();
+    if (success) setPedidos(data);
+
+    if (data.length > 0) facturasPorCobrar(pedidos);
   }
 
   function validarDocumento() {
@@ -156,7 +234,7 @@ function NewInvoice({ title }) {
         factura.documento,
       {
         ...requestOptions,
-        method: "GET"
+        method: "GET",
       }
     );
     const { success } = await res.json();
@@ -176,7 +254,7 @@ function NewInvoice({ title }) {
       "https://luzpizstore.onrender.com/api/work/clientes/" + factura.documento,
       {
         ...requestOptions,
-        method: "GET"
+        method: "GET",
       }
     );
     const { success } = await res.json();
@@ -202,15 +280,18 @@ function NewInvoice({ title }) {
       apellido: "",
       telefono: "",
       direccion: "",
+      id: "",
     });
-    navigate("/" + sessionStorage.getItem("rol") + "/facturas", { replace: true });
+    navigate("/" + sessionStorage.getItem("rol") + "/facturas", {
+      replace: true,
+    });
   }
 
   return (
     <div className="container mt-2 rounded-1">
       <div className="row">
         <select
-          className="form-select-lg bg-dark text-white my-2"
+          className="form-select bg-dark text-white my-2"
           onChange={HandlerChoice}
         >
           <option value={""}>Selecciona el tipo de Factura</option>
@@ -218,9 +299,140 @@ function NewInvoice({ title }) {
           <option value="Venta">Venta</option>
         </select>
         <h2 className="subtitle p-2 text-white rounded-2">
-          {title + " " + (choice == "" ? "" : choice)}
+          {title + " " + (choice === "" ? "" : choice)}
         </h2>
+
         <div className="col-md-12 text-white px-4 text-center">
+          {choice === "Venta" && sinfacturar && (
+            <div className="form-check">
+              <div className="alert alert-success p-1" role="alert">
+                filas amarillas son Ordenes  | filas azules son Pedidos
+              </div>
+              <h4>Facturas por cobrar</h4>
+              <table className="table table-dark p-0 rounded-1">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Cedula</th>
+                    <th>Monto</th>
+                    <th>Seleccionar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ordenes.map((orden) => {
+                    if (!orden.facturado) {
+                      return (
+                        <tr
+                          key={orden.id}
+                          id="ordenes"
+                          className="table-warning"
+                        >
+                          <td>{orden.nombre}</td>
+                          <td>{orden.cliente_cedula}</td>
+                          <td>{orden.total}$</td>
+                          <td>
+                            <button
+                              className="btn_radio"
+                              onClick={() => {
+                                const cantPizzas = orden.pizzas.split(",");
+                                const cantBebidas = orden.bebidas.split(",");
+                                let cadena1 = "";
+                                let cadena2 = "";
+                                if (cantPizzas.length > 1) {
+                                  cadena1 =
+                                    "Pizzas: " + (cantPizzas.length - 1);
+                                }
+                                if (cantBebidas.length > 1) {
+                                  cadena2 =
+                                    "Bebidas: " + (cantBebidas.length - 1);
+                                }
+                                setActivarForm(true);
+                                setVerificado(true);
+                                setFactura({
+                                  ...factura,
+                                  documento: orden.cliente_cedula,
+                                  total: orden.total,
+                                  nombre: orden.nombre,
+                                  descripcion:
+                                    (cadena1 ? cadena1 : "") +
+                                    " " +
+                                    (cadena2 ? cadena2 : ""),
+                                  id: orden.id,
+                                });
+                                document.getElementById(
+                                  "documento"
+                                ).disabled = true;
+                                setTipo("Orden");
+                              }}
+                            >
+                              <span className="material-symbols-outlined d-block icon">
+                                check_circle
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    }
+
+                    return <></>;
+                  })}
+
+                  {pedidos.map((pedido) => {
+                    if (!pedido.facturado) {
+                      return (
+                        <tr key={pedido.id} id="ordenes" className="table-info">
+                          <td>{pedido.nombre}</td>
+                          <td>{pedido.cliente_cedula}</td>
+                          <td>{pedido.total}$</td>
+                          <td>
+                            <button
+                              className="btn_radio"
+                              onClick={() => {
+                                const cantPizzas = pedido.pizzas.split(",");
+                                const cantBebidas = pedido.bebidas.split(",");
+                                let cadena1 = "";
+                                let cadena2 = "";
+                                if (cantPizzas.length > 1) {
+                                  cadena1 =
+                                    "Pizzas: " + (cantPizzas.length - 1);
+                                }
+                                if (cantBebidas.length > 1) {
+                                  cadena2 =
+                                    "Bebidas: " + (cantBebidas.length - 1);
+                                }
+                                setActivarForm(true);
+                                setVerificado(true);
+                                setFactura({
+                                  ...factura,
+                                  documento: pedido.cliente_cedula,
+                                  total: pedido.total,
+                                  nombre: pedido.nombre,
+                                  descripcion:
+                                    (cadena1 ? cadena1 : "") +
+                                    " " +
+                                    (cadena2 ? cadena2 : ""),
+                                  id: pedido.id,
+                                });
+                                document.getElementById(
+                                  "documento"
+                                ).disabled = true;
+                                setTipo("Pedido");
+                              }}
+                            >
+                              <span className="material-symbols-outlined d-block icon">
+                                check_circle
+                              </span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    }
+                    return <></>;
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
           <form className="text-center" onSubmit={registrarFactura}>
             {choice !== "" && (
               <>
@@ -281,6 +493,7 @@ function NewInvoice({ title }) {
                       className="form-control bg-dark text-white"
                       placeholder="Monto a Pagar $"
                       onChange={handlerFormChange}
+                      value={factura.total ? factura.total : ""}
                       name="total"
                       required
                     />
@@ -307,6 +520,7 @@ function NewInvoice({ title }) {
                         className="form-control bg-dark text-white"
                         name="descripcion"
                         onChange={handlerFormChange}
+                        value={factura.descripcion ? factura.descripcion : ""}
                         required
                       ></textarea>
                     </div>

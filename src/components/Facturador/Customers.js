@@ -3,6 +3,11 @@ import swal from "sweetalert";
 
 function Customers({ title }) {
   const [clientes, setClientes] = useState([]);
+  const [detalles, setDetalles] = useState({
+    direccion:"",
+    numero:""
+  });
+  const [mostrarDetalles, setMostrarDetalles] = useState(false);
 
   useEffect(() => {
     cargarClientes();
@@ -32,6 +37,14 @@ function Customers({ title }) {
     if (data.length === 0) swal("No hay Clientes Registrados");
   }
 
+  function mostrarResumen(cliente) {
+    setDetalles({
+      direccion: cliente.direccion,
+      numero: cliente.numero,
+    });
+    setMostrarDetalles(true);
+  }
+
   return (
     <div className="container mt-2 rounded-1">
       <div className="row">
@@ -42,8 +55,9 @@ function Customers({ title }) {
               <tr>
                 <th>Cliente</th>
                 <th>C.I</th>
-                <th>Sector</th>
-                <th>Telefono</th>
+                <th className="ocultar">Sector</th>
+                <th className="ocultar">Telefono</th>
+                <th className="mostrar">Detalles</th>
               </tr>
             </thead>
             <tbody>
@@ -52,13 +66,41 @@ function Customers({ title }) {
                   <tr key={cliente.cedula}>
                     <td>{cliente.nombre}</td>
                     <td>{cliente.cedula}</td>
-                    <td>{cliente.direccion}</td>
-                    <td>{cliente.numero}</td>
+                    <td className="ocultar">{cliente.direccion}</td>
+                    <td className="ocultar">{cliente.numero}</td>
+                    <td className="mostrar">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            mostrarResumen(cliente);
+                          }}
+                        >
+                          ver
+                        </button>
+                      </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          {mostrarDetalles && (
+            <div className="mostrar_div text-center text-white">
+              <span
+                className="boton_detalles_close"
+                onClick={() => {
+                  setMostrarDetalles(false);
+                }}
+              >
+                X
+              </span>
+              <h4>Detalles del Cliente</h4>
+              <p>
+                Direccion: {detalles.direccion}
+                <br />
+                telefono: {detalles.numero}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

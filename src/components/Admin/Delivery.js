@@ -4,6 +4,11 @@ import swal from "sweetalert";
 function Delivery({ title }) {
   const [pedidos, setPedidos] = useState([]);
   const [total, setTotal] = useState(null);
+  const [detalles, setDetalles] = useState({
+    cliente: "",
+    direccion: "",
+  });
+  const [mostrarDetalles, setMostrarDetalles] = useState(false);
 
   useEffect(() => {
     cargarEntregas();
@@ -40,8 +45,16 @@ function Delivery({ title }) {
     } else console.log("error interno al consultar el total de pedidos");
   }
 
+  function mostrarResumen( pedido ) {
+    setDetalles({
+      cliente: pedido.cedula,
+      direccion: pedido.direccion,
+    });
+    setMostrarDetalles(true);
+  }
+
   return (
-    <div className="container mt-2 rounded-1">
+    <div className="container mt-2 rounded-1 position-relative">
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-12 text-white">
@@ -58,8 +71,9 @@ function Delivery({ title }) {
                 <tr>
                   <th>Cliente</th>
                   <th>Cedula</th>
-                  <th>Direccion de Entrega</th>
+                  <th className="ocultar">Direccion de Entrega</th>
                   <th>Fecha</th>
+                  <th className="mostrar">Detalles</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,13 +83,41 @@ function Delivery({ title }) {
                     <tr key={pedido.id}>
                       <td>{pedido.nombre}</td>
                       <td>{pedido.cedula}</td>
-                      <td>{pedido.direccion}</td>
+                      <td className="ocultar">{pedido.direccion}</td>
                       <td>{pedido.fecha}</td>
+                      <td className="mostrar">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            mostrarResumen(pedido);
+                          }}
+                        >
+                          ver
+                        </button>
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            {mostrarDetalles && (
+              <div className="mostrar_div text-center">
+                <span
+                  className="boton_detalles_close"
+                  onClick={() => {
+                    setMostrarDetalles(false);
+                  }}
+                >
+                  X
+                </span>
+                <h4>Detalles de la Entrega</h4>
+                <p>
+                  Cedula: {detalles.cliente}
+                  <br />
+                  Direccion: {detalles.direccion}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

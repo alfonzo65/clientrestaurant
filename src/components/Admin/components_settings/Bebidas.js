@@ -61,13 +61,13 @@ function Bebidas({ title }) {
   }
 
   function validarCampos() {
-    return newBebida.nombre === "" || newBebida.precio === "";
+    return newBebida.nombre === "" || ( newBebida.precio === "" || newBebida.precio < 0.1 );
   }
 
   // actualizar bebida
   async function updateBebida() {
     if (validarCampos()) {
-      await swal("Asegure de llenar todos los campos!", "", "warning");
+      await swal("Asegurese de rellenar los campos correctamente!!", "", "warning");
       return;
     }
     const data = await JSON.stringify({

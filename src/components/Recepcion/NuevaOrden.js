@@ -15,6 +15,7 @@ function NuevaOrden({ title }) {
     bebidas: [],
     direccion_entrega: "",
     telefono: "",
+    total:0
   });
 
   const requestOptions = {
@@ -41,7 +42,7 @@ function NuevaOrden({ title }) {
   useEffect(() => {
     cargarBebidas();
     cargarPizzas();
-  }, []);
+  }, [choice]);
 
   async function consultarClient(cedula) {
     const res = await fetch(
@@ -51,7 +52,7 @@ function NuevaOrden({ title }) {
         method: "GET"
       }
     );
-    const { success, message } = await res.json();
+    const { success } = await res.json();
 
     if (success) {
       if (choice === "Orden") navigate("/recepcion/ordenes", { replace: true });
@@ -69,8 +70,9 @@ function NuevaOrden({ title }) {
       });
     } // fin else
 
-    //console.log(success + " " + message )
   }
+
+
 
   async function registrarOrden(e) {
     e.preventDefault();
@@ -82,6 +84,7 @@ function NuevaOrden({ title }) {
         nombre: orden.nombre,
         pizzas: orden.pizzas,
         bebidas: orden.bebidas,
+        total: orden.total
       });
       // peticion a la api
       const res = await fetch(
@@ -109,6 +112,7 @@ function NuevaOrden({ title }) {
         bebidas: orden.bebidas,
         direccion_entrega: orden.direccion_entrega,
         telefono: orden.telefono,
+        total: orden.total
       });
       // peticion a la api
       const res = await fetch(
@@ -212,11 +216,19 @@ function NuevaOrden({ title }) {
     setBebidas(data);
   }
 
+  function consultarPrecio( name , array ){
+    for( let i = 0 ; i < array.length ; i++ ){
+      if( array[i].nombre === name )
+        return array[i].precio;
+    }
+    return -1;
+  }
+
   return (
     <div className="container mt-2 rounded-1">
       <div className="row">
         <select
-          className="form-select-lg bg-dark text-white my-2"
+          className="form-select bg-dark text-white my-2"
           onChange={HandlerChoice}
         >
           <option value={""}>Selecciona el tipo de Encargo</option>
@@ -249,6 +261,7 @@ function NuevaOrden({ title }) {
                             <button
                               className="btn btn-primary px-2 py-0"
                               onClick={() => {
+                                orden.total += pizza.precio
                                 addPizza(pizza.nombre);
                               }}
                             >
@@ -278,6 +291,7 @@ function NuevaOrden({ title }) {
                             <button
                               className="btn btn-primary px-2 py-0"
                               onClick={() => {
+                                orden.total += bebida.precio
                                 addBebida(bebida.nombre);
                               }}
                             >
@@ -307,7 +321,9 @@ function NuevaOrden({ title }) {
                         {pizza.nombre + " x" + pizza.cant}
                         <button
                           className="btn btn-danger px-2 py-0 float-end"
-                          onClick={() => {
+                          onClick={ () => {
+                            const precio = consultarPrecio(pizza.nombre, pizzas)
+                            orden.total -= precio
                             restarCantidad(
                               orden.pizzas.indexOf(pizza),
                               orden.pizzas
@@ -334,7 +350,9 @@ function NuevaOrden({ title }) {
                         {bebida.nombre + " x" + bebida.cant}
                         <button
                           className="btn btn-danger px-2 py-0 float-end"
-                          onClick={() => {
+                          onClick={ () => {
+                            const precio = consultarPrecio(bebida.nombre, bebidas)
+                            orden.total -= precio
                             restarCantidad(
                               orden.bebidas.indexOf(bebida),
                               orden.bebidas

@@ -1,18 +1,20 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 function OlvidoDeClave() {
 
  const [mail, setMail] = useState("")
+ let navigate = useNavigate()
 
  function handlerEmail(e) {
     setMail(e.target.value)
  }
 
+
  async function recuperarContrasena(e){
     e.preventDefault()
-    console.log(mail)
     const data = await JSON.stringify({email: mail})
-    console.log(data)
     const res = await fetch('https://luzpizstore.onrender.com/api/users/temporal_password',{
         method:"POST",
         mode:"cors",
@@ -22,8 +24,15 @@ function OlvidoDeClave() {
         body: data
     })
     console.log(res)
-    const respuesta = await res.json()
-    console.log(respuesta)
+    const { success, message } = await res.json()
+    if(success){
+      await swal( message, "", "success")
+      navigate("/")
+    }else{
+      await swal( "Este Email no esta Registrado!", "", "warning")
+      setMail("")
+    }
+    
   }
 
 
@@ -37,6 +46,7 @@ function OlvidoDeClave() {
               <input type="email" 
               className="form-control-sm p-1 field d-block m-auto" 
               name="email"
+              value={ mail ? mail : "" }
               required 
               placeholder="Ingrese su email"
               onChange={handlerEmail}

@@ -53,13 +53,20 @@ function NewClient({ title }) {
       })
       const { success, message } = await res.json()
       if( success ){
-        swal( message, "You clicked the button!", "success" )
+        await swal( message, "You clicked the button!", "success" )
         if( type === "Orden" )
           navigate("/recepcion/ordenes",{replace:true})
         if( type === "Pedido")
           navigate("/recepcion/pedidos",{replace:true})
+        
+        setNewClient({
+          cedula:"",
+          nombre:"",
+          direccion:"",
+          numero:""
+        })
       }else{
-        swal( message,  "You clicked the button!", "warning" )
+        await swal( message,  "You clicked the button!", "warning" )
       }
   }
 

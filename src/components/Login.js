@@ -4,6 +4,7 @@ import logo from '../img/pizza-6682514_640.png'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 function Login() {
   const [ user, setUser ] = useState("")
@@ -56,7 +57,9 @@ function Login() {
       sessionStorage.setItem("rol", results.rol)
       navigate(results.rol + "/*", { replace: true });
     }else{
-      console.log("email or password invalid")
+      await swal("Email o Contraseña Invalido", "", "warning")
+      setClave("")
+      setUser("")
     }
   }
 
@@ -66,7 +69,7 @@ function Login() {
         <div
           className="login text-center position-relative"
         >
-          <img src={logo} className="logo-login"></img>
+          <img src={logo} className="logo-login" alt="Imagen de Pizza de sym en Pixabay"></img>
           <form className="text-center mt-4" onSubmit={handlerSubmit}>
             <div className="mb-2">
               <input
@@ -74,6 +77,7 @@ function Login() {
                 className="text-center field"
                 placeholder="example@mail.com"
                 onChange={handlerUser}
+                value={ user ? user : ""}
               />
             </div>
             <div className="mb-3">
@@ -83,6 +87,7 @@ function Login() {
                 id="exampleInputPassword1"
                 placeholder="password"
                 onChange={handlerPassword}
+                value={ clave ? clave : ""}
               />
               <div id="emailHelp" className="form-text text-white p-0 m-0"><Link 
               className="forgotten"

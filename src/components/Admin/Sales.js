@@ -6,13 +6,12 @@ function Sales({ title }) {
   const [ventas, setVentas] = useState(null);
   const [contador, setContador] = useState(null);
   const [detalles, setDetalles] = useState({
-    cliente:"",
+    cliente: "",
     descripcion: "",
     total: 0,
-    direccion:""
+    direccion: "",
   });
   const [mostrarDetalles, setMostrarDetalles] = useState(false);
-
 
   useEffect(() => {
     cargarVentas();
@@ -55,7 +54,12 @@ function Sales({ title }) {
   }
 
   function mostrarResumen(sale) {
-    setDetalles({ cliente: sale.cedula, descripcion: sale.descripcion, total: sale.total, direccion: sale.direccion });
+    setDetalles({
+      cliente: sale.cedula,
+      descripcion: sale.descripcion,
+      total: sale.total,
+      direccion: sale.direccion,
+    });
     setMostrarDetalles(true);
   }
 
@@ -106,31 +110,33 @@ function Sales({ title }) {
                           ver
                         </button>
                       </td>
-                      {mostrarDetalles && (
-                        <div className="mostrar_div">
-                          <span
-                            className="boton_detalles_close"
-                            onClick={() => {
-                              setMostrarDetalles(false);
-                            }}
-                          >
-                            X
-                          </span>
-                          <h4>Detalles de la Venta</h4>
-                          <p>
-                            Cedula: {detalles.cliente}<br/>
-                            Direccion: {detalles.direccion}<br/>
-                            Descripcion: {detalles.descripcion}
-                            <br />
-                            Monto a Pagar: {detalles.total}$
-                          </p>
-                        </div>
-                      )}
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            {mostrarDetalles && (
+              <div className="mostrar_div text-center">
+                <span
+                  className="boton_detalles_close"
+                  onClick={() => {
+                    setMostrarDetalles(false);
+                  }}
+                >
+                  X
+                </span>
+                <h4>Detalles de la Venta</h4>
+                <p>
+                  Cedula: {detalles.cliente}
+                  <br />
+                  Direccion: {detalles.direccion}
+                  <br />
+                  Descripcion: {detalles.descripcion}
+                  <br />
+                  Monto a Pagar: {detalles.total}$
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

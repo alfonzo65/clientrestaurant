@@ -48,21 +48,26 @@ function Ordenes({ title }) {
     cargarPedidos();
   }
 
-  async function confirmarEntrega(idPedido) {
+  async function confirmarEntrega(idPedido, facturado) {
     const data = await JSON.stringify({ id: idPedido });
-    const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/confirmar",
-      {
-        ...requestOptions,
-        method: "POST",
-        body: data,
-      }
-    );
-    const { success, message } = await res.json();
-    if (success) await swal(message, "You clicked the button!", "success");
-    else await swal(message, "You clicked the button!", "warning");
 
-    cargarPedidos();
+    if (facturado) {
+      const res = await fetch(
+        "https://luzpizstore.onrender.com/api/work/confirmar",
+        {
+          ...requestOptions,
+          method: "POST",
+          body: data,
+        }
+      );
+      const { success, message } = await res.json();
+      if (success) await swal(message, "You clicked the button!", "success");
+      else await swal(message, "You clicked the button!", "warning");
+
+      cargarPedidos();
+    }else{
+      await swal("EL pedido no ha sido facturado!", "", "warning")
+    }
   }
 
   return (
@@ -70,6 +75,16 @@ function Ordenes({ title }) {
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-sm-12 text-center text-white">
+          <div className="text-center py-1 my-2">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                cargarPedidos();
+              }}
+            >
+              Actualizar Pedidos
+            </button>
+          </div>
           <div className="grid-container">
             {pedidos.map((pedido) => {
               let list1 = pedido.pizzas.split(",");
@@ -82,6 +97,7 @@ function Ordenes({ title }) {
                     <h5 className="text-center titlePedido rounded-2">
                       <i>{pedido.nombre}</i>
                     </h5>
+                    <p className="note">{pedido.cliente_cedula}</p>
                     {list1.map((pizzaName) => {
                       return (
                         <p className="p-0 m-0" key={list1.indexOf(pizzaName)}>
@@ -100,9 +116,16 @@ function Ordenes({ title }) {
                       Direccion:{pedido.direccion_entrega}
                     </i>
                     <i className="d-block">telefono:{pedido.telefono}</i>
+                    <p
+                      className={pedido.facturado ? "bg-success" : "bg-danger"}
+                    >
+                      {pedido.facturado ? "Facturado" : "No-Facturado"}
+                    </p>
                     <button
                       className="btnDone"
-                      onClick={() => confirmarEntrega(pedido.id)}
+                      onClick={() =>
+                        confirmarEntrega(pedido.id, pedido.facturado)
+                      }
                     >
                       <span className="material-symbols-outlined">done</span>
                     </button>

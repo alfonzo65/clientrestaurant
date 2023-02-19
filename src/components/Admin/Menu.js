@@ -5,11 +5,9 @@ function Menu({ title }) {
   const [bebidas, setBebidas] = useState([]);
 
   useEffect(() => {
-    setPizzas([])
-    setBebidas([])
     cargarBebidas();
     cargarPizzas();
-  }, []);
+  }, [ pizzas , bebidas]);
 
   const requestOptions = {
     method: "",
