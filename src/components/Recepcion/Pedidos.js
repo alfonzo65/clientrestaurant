@@ -55,9 +55,21 @@ function Ordenes({ title }) {
         const { success, message } = await res.json();
         if (success) await swal(message, "You clicked the button!", "success");
         else await swal(message, "You clicked the button!", "warning");
+      } else {
+        swal("Tu pedido sige pendiente por confirmar");
       }
-    }else{
-      swal("Tu pedido sige pendiente por confirmar")
+    } else {
+      const res = await fetch(
+        "https://luzpizstore.onrender.com/api/work/entregas",
+        {
+          ...requestOptions,
+          method: "DELETE",
+          body: data,
+        }
+      );
+      const { success, message } = await res.json();
+      if (success) await swal(message, "You clicked the button!", "success");
+      else await swal(message, "You clicked the button!", "warning");
     }
 
     cargarPedidos();
@@ -81,7 +93,7 @@ function Ordenes({ title }) {
 
       cargarPedidos();
     } else {
-      await swal("EL pedido no ha sido facturado!", "", "warning");
+      await swal("E pedido no ha sido facturado!", "", "warning");
     }
   }
 
