@@ -93,7 +93,7 @@ function Ordenes({ title }) {
 
       cargarPedidos();
     } else {
-      await swal("E pedido no ha sido facturado!", "", "warning");
+      await swal("El pedido no ha sido facturado!", "", "warning");
     }
   }
 
