@@ -374,7 +374,7 @@ function NewInvoice({ title }) {
                       );
                     }
 
-                    return <></>;
+                    return <div key={orden.id}></div>;
                   })}
 
                   {pedidos.map((pedido) => {
@@ -427,7 +427,7 @@ function NewInvoice({ title }) {
                         </tr>
                       );
                     }
-                    return <></>;
+                    return <div key={pedido.id}></div>;
                   })}
                 </tbody>
               </table>
