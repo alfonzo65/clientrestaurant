@@ -15,7 +15,7 @@ function NuevaOrden({ title }) {
     bebidas: [],
     direccion_entrega: "",
     telefono: "",
-    total:0
+    total: 0,
   });
 
   const requestOptions = {
@@ -42,6 +42,15 @@ function NuevaOrden({ title }) {
   useEffect(() => {
     cargarBebidas();
     cargarPizzas();
+    setOrden({
+      cliente_cedula: "",
+      nombre: "",
+      pizzas: [],
+      bebidas: [],
+      direccion_entrega: "",
+      telefono: "",
+      total: 0,
+    })
   }, [choice]);
 
   async function consultarClient(cedula) {
@@ -49,7 +58,7 @@ function NuevaOrden({ title }) {
       "https://luzpizstore.onrender.com/api/work/clientes/" + cedula,
       {
         ...requestOptions,
-        method: "GET"
+        method: "GET",
       }
     );
     const { success } = await res.json();
@@ -69,10 +78,7 @@ function NuevaOrden({ title }) {
         },
       });
     } // fin else
-
   }
-
-
 
   async function registrarOrden(e) {
     e.preventDefault();
@@ -84,7 +90,7 @@ function NuevaOrden({ title }) {
         nombre: orden.nombre,
         pizzas: orden.pizzas,
         bebidas: orden.bebidas,
-        total: orden.total
+        total: orden.total,
       });
       // peticion a la api
       const res = await fetch(
@@ -92,7 +98,7 @@ function NuevaOrden({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
@@ -112,7 +118,7 @@ function NuevaOrden({ title }) {
         bebidas: orden.bebidas,
         direccion_entrega: orden.direccion_entrega,
         telefono: orden.telefono,
-        total: orden.total
+        total: orden.total,
       });
       // peticion a la api
       const res = await fetch(
@@ -120,7 +126,7 @@ function NuevaOrden({ title }) {
         {
           ...requestOptions,
           method: "POST",
-          body: data
+          body: data,
         }
       );
       const { success, message } = await res.json();
@@ -196,7 +202,7 @@ function NuevaOrden({ title }) {
       "https://luzpizstore.onrender.com/api/menu/pizzas",
       {
         ...requestOptions,
-        method: "GET"
+        method: "GET",
       }
     );
     const { data } = await datos.json();
@@ -216,10 +222,9 @@ function NuevaOrden({ title }) {
     setBebidas(data);
   }
 
-  function consultarPrecio( name , array ){
-    for( let i = 0 ; i < array.length ; i++ ){
-      if( array[i].nombre === name )
-        return array[i].precio;
+  function consultarPrecio(name, array) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].nombre === name) return array[i].precio;
     }
     return -1;
   }
@@ -261,7 +266,7 @@ function NuevaOrden({ title }) {
                             <button
                               className="btn btn-primary px-2 py-0"
                               onClick={() => {
-                                orden.total += pizza.precio
+                                orden.total += pizza.precio;
                                 addPizza(pizza.nombre);
                               }}
                             >
@@ -291,7 +296,7 @@ function NuevaOrden({ title }) {
                             <button
                               className="btn btn-primary px-2 py-0"
                               onClick={() => {
-                                orden.total += bebida.precio
+                                orden.total += bebida.precio;
                                 addBebida(bebida.nombre);
                               }}
                             >
@@ -321,9 +326,12 @@ function NuevaOrden({ title }) {
                         {pizza.nombre + " x" + pizza.cant}
                         <button
                           className="btn btn-danger px-2 py-0 float-end"
-                          onClick={ () => {
-                            const precio = consultarPrecio(pizza.nombre, pizzas)
-                            orden.total -= precio
+                          onClick={() => {
+                            const precio = consultarPrecio(
+                              pizza.nombre,
+                              pizzas
+                            );
+                            orden.total -= precio;
                             restarCantidad(
                               orden.pizzas.indexOf(pizza),
                               orden.pizzas
@@ -350,9 +358,12 @@ function NuevaOrden({ title }) {
                         {bebida.nombre + " x" + bebida.cant}
                         <button
                           className="btn btn-danger px-2 py-0 float-end"
-                          onClick={ () => {
-                            const precio = consultarPrecio(bebida.nombre, bebidas)
-                            orden.total -= precio
+                          onClick={() => {
+                            const precio = consultarPrecio(
+                              bebida.nombre,
+                              bebidas
+                            );
+                            orden.total -= precio;
                             restarCantidad(
                               orden.bebidas.indexOf(bebida),
                               orden.bebidas
@@ -365,7 +376,12 @@ function NuevaOrden({ title }) {
                       </li>
                     );
                   })}
-                </ul>
+                </ul><br/>
+                {orden.total > 0 && (
+                  <div className="alert alert-primary text-center p-1 fs-6 fw-bolder">
+                    Monto Total: {orden.total}$
+                  </div>
+                )}
               </div>
               <form className="text-center" onSubmit={registrarOrden}>
                 <div className="input-group my-2 text-center">
