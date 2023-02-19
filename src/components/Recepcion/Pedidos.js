@@ -31,19 +31,34 @@ function Ordenes({ title }) {
     if (data.length === 0) await swal("No hay Pedidos", "", "warning");
   }
 
-  async function cancelarPedido(idPedido) {
+  async function cancelarPedido(idPedido, facturado) {
     const data = await JSON.stringify({ id: idPedido });
-    const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/entregas",
-      {
-        ...requestOptions,
-        method: "DELETE",
-        body: data,
+
+    if (facturado) {
+      const respuesta = await swal({
+        title: "Estas seguro de Cancelar este Pedido que ya esta facturado?",
+        text: "Una vez cancelado el pedido no podras recuperar la informacion",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      });
+
+      if (respuesta) {
+        const res = await fetch(
+          "https://luzpizstore.onrender.com/api/work/entregas",
+          {
+            ...requestOptions,
+            method: "DELETE",
+            body: data,
+          }
+        );
+        const { success, message } = await res.json();
+        if (success) await swal(message, "You clicked the button!", "success");
+        else await swal(message, "You clicked the button!", "warning");
       }
-    );
-    const { success, message } = await res.json();
-    if (success) await swal(message, "You clicked the button!", "success");
-    else await swal(message, "You clicked the button!", "warning");
+    }else{
+      swal("Tu pedido sige pendiente por confirmar")
+    }
 
     cargarPedidos();
   }
@@ -65,8 +80,8 @@ function Ordenes({ title }) {
       else await swal(message, "You clicked the button!", "warning");
 
       cargarPedidos();
-    }else{
-      await swal("EL pedido no ha sido facturado!", "", "warning")
+    } else {
+      await swal("EL pedido no ha sido facturado!", "", "warning");
     }
   }
 
@@ -131,7 +146,9 @@ function Ordenes({ title }) {
                     </button>
                     <button
                       className="btnCancel"
-                      onClick={() => cancelarPedido(pedido.id)}
+                      onClick={() =>
+                        cancelarPedido(pedido.id, pedido.facturado)
+                      }
                     >
                       <span className="material-symbols-outlined">close</span>
                     </button>

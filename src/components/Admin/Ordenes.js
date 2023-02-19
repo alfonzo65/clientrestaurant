@@ -51,7 +51,7 @@ function Ordenes({ title }) {
         } 
         else swal(message, "", "warning");
       } else {
-        swal("Tu orden sige activa!");
+        swal("Tu orden sige pendiente por Entregar!");
       }
     } else {
       const res = await fetch(
