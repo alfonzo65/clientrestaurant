@@ -49,9 +49,7 @@ function NewInvoice({ title }) {
   }, [choice]);
 
   function facturasPorCobrar(lista) {
-
-    if( sinfacturar )
-      return
+    if (sinfacturar) return;
 
     for (let i = 0; i < lista.length; i++) {
       if (lista[i].facturado === 0) {
@@ -92,7 +90,7 @@ function NewInvoice({ title }) {
       const { success, message } = await res.json();
 
       if (success) {
-        await swal(message)
+        await swal(message);
       } else {
         swal(message, "click in button ok please", "warning");
         navigate("/" + sessionStorage.getItem("rol") + "/providers");
@@ -117,9 +115,9 @@ function NewInvoice({ title }) {
       );
       const { success, message } = await res.json();
       if (success) {
-        console.log(message);
+        await swal(message);
       } else {
-        swal(message, "click in button ok please", "warning");
+        await swal(message, "click in button ok please", "warning");
         navigate("/" + sessionStorage.getItem("rol") + "/customers");
       }
     }
@@ -141,7 +139,7 @@ function NewInvoice({ title }) {
       );
       const { success, message } = await res.json();
       if (success) {
-        await swal(message);
+        await swal(message, "", "success");
         navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Compra");
@@ -165,7 +163,7 @@ function NewInvoice({ title }) {
       );
       const { success, message } = await res.json();
       if (success) {
-        swal(message);
+        await swal(message, "", "success");
         navigate("/" + sessionStorage.getItem("rol") + "/facturas");
       } else {
         swal("Erro interno al registrar factura de Venta");
@@ -260,12 +258,12 @@ function NewInvoice({ title }) {
     const { success } = await res.json();
     if (!success) {
       setActivarForm(true);
-      document.getElementById("documento").disabled = true;
     } else {
-      document.getElementById("documento").disabled = true;
       setActivarForm(true);
       setVerificado(true);
     }
+
+    document.getElementById("documento").disabled = true;
   }
 
   function cancelarFactura() {
@@ -289,7 +287,7 @@ function NewInvoice({ title }) {
 
   return (
     <div className="container mt-2 rounded-1">
-      <div className="row">
+      <div className="row m-auto">
         <select
           className="form-select bg-dark text-white my-2"
           onChange={HandlerChoice}
@@ -302,14 +300,14 @@ function NewInvoice({ title }) {
           {title + " " + (choice === "" ? "" : choice)}
         </h2>
 
-        <div className="col-md-12 text-white px-4 text-center">
+        <div className="col-md-12 text-white text-center">
           {choice === "Venta" && sinfacturar && (
-            <div className="form-check">
+            <div className="p-2">
               <div className="alert alert-success p-1" role="alert">
-                filas amarillas son Ordenes  | filas azules son Pedidos
+                filas amarillas son Ordenes | filas azules son Pedidos
               </div>
               <h4>Facturas por cobrar</h4>
-              <table className="table table-dark p-0 rounded-1">
+              <table className="table table-dark">
                 <thead>
                   <tr>
                     <th>Cliente</th>
@@ -434,8 +432,20 @@ function NewInvoice({ title }) {
             </div>
           )}
           <form className="text-center" onSubmit={registrarFactura}>
+            {choice !== "" && !verificado && activarForm && (
+              <div className="alert alert-info" role="alert">
+                {choice === "Compra" ? "Proveedor" : "Cliente"} No Registrado,
+                Por favor rellene los siguientes Campos para registrar nuevo{" "}
+                {choice === "Compra" ? "Proveedor" : "Cliente"}
+              </div>
+            )}
             {choice !== "" && (
               <>
+                {!verificado && activarForm && (
+                  <h3>
+                    Datos Del {choice === "Compra" ? "Proveedor" : "Cliente"}
+                  </h3>
+                )}
                 <div className="input-group my-2 text-center">
                   <input
                     type="text"
@@ -453,70 +463,70 @@ function NewInvoice({ title }) {
                     required
                   />
                   {!verificado && activarForm && (
-                    <input
-                      type="text"
-                      pattern={
-                        choice === "Compra"
-                          ? null
-                          : "[A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"
-                      }
-                      className="form-control bg-dark text-white"
-                      placeholder={
-                        choice === "Compra"
-                          ? "Nombre De Empresa"
-                          : "Nombre Apellido"
-                      }
-                      name="nombre"
-                      onChange={handlerFormChange}
-                      required
-                    />
-                  )}
-                </div>
+                    <>
+                      <input
+                        type="text"
+                        pattern={
+                          choice === "Compra"
+                            ? null
+                            : "[A-Z]{1}[a-z]+ [A-Z]{1}[a-z]+"
+                        }
+                        className="form-control bg-dark text-white"
+                        placeholder={
+                          choice === "Compra"
+                            ? "Nombre De Empresa"
+                            : "Nombre Apellido"
+                        }
+                        name="nombre"
+                        onChange={handlerFormChange}
+                        required
+                      />
 
-                <div className="input-group my-2 text-center">
-                  {!verificado && activarForm && (
-                    <input
-                      type="tel"
-                      pattern="[0-9]{11}"
-                      className="form-control bg-dark text-white"
-                      placeholder="Tlf: eje 04121234567"
-                      onChange={handlerFormChange}
-                      name="telefono"
-                      required
-                    />
-                  )}
-                  {activarForm && (
-                    <input
-                      type="number"
-                      min={0}
-                      step="0.01"
-                      className="form-control bg-dark text-white"
-                      placeholder="Monto a Pagar $"
-                      onChange={handlerFormChange}
-                      value={factura.total ? factura.total : ""}
-                      name="total"
-                      required
-                    />
+                      <div className="input-group my-2 text-center">
+                        <input
+                          type="tel"
+                          pattern="[0-9]{11}"
+                          className="form-control bg-dark text-white"
+                          placeholder="Tlf: eje 04121234567"
+                          onChange={handlerFormChange}
+                          name="telefono"
+                          required
+                        />
+                        {!verificado && choice === "Venta" && (
+                          
+                            <input
+                              placeholder="Sector Donde vive"
+                              className="form-control bg-dark text-white"
+                              name="direccion"
+                              onChange={handlerFormChange}
+                              required
+                            />
+                          
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
 
                 {activarForm && (
                   <>
-                    {!verificado && choice === "Venta" && (
-                      <div className="input-group my-2 text-center">
-                        <input
-                          placeholder="Sector Donde vive"
-                          className="form-control bg-dark text-white"
-                          name="direccion"
-                          onChange={handlerFormChange}
-                          required
-                        />
-                      </div>
-                    )}
-
+                    <h3>Datos para Facturar</h3>
+                    <div className="input-group my-2 text-center">
+                      <input
+                        type="number"
+                        min={0}
+                        step="0.01"
+                        className="form-control bg-dark text-white"
+                        placeholder="Monto a Pagar $"
+                        onChange={handlerFormChange}
+                        value={factura.total ? factura.total : ""}
+                        name="total"
+                        required
+                      />
+                    </div>
                     <div className="input-group my-2 text-center">
                       <textarea
-                        placeholder={"Description de la " + choice}
+                        placeholder={"Descripcion de la " + choice}
                         className="form-control bg-dark text-white"
                         name="descripcion"
                         onChange={handlerFormChange}
