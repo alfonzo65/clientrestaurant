@@ -5,6 +5,7 @@ import swal from "sweetalert";
 function NewInvoice({ title }) {
   const navigate = useNavigate();
   const [ordenes, setOrdenes] = useState([]);
+  const [ocultar, setOcultar] = useState("")
   const [pedidos, setPedidos] = useState([]);
   const [sinfacturar, setSinFacturar] = useState(false);
   const [tipo, setTipo] = useState("");
@@ -239,12 +240,12 @@ function NewInvoice({ title }) {
 
     if (!success) {
       setActivarForm(true);
-      document.getElementById("documento").disabled = true;
     } else {
-      document.getElementById("documento").disabled = true;
       setActivarForm(true);
       setVerificado(true);
     }
+
+    document.getElementById("documento").disabled = true;
   }
 
   async function consultarCliente() {
@@ -289,7 +290,7 @@ function NewInvoice({ title }) {
     <div className="container mt-2 rounded-1">
       <div className="row m-auto">
         <select
-          className="form-select bg-dark text-white my-2"
+          className={"form-select bg-dark text-white my-2" + ( ocultar ? " " + ocultar : "") }
           onChange={HandlerChoice}
         >
           <option value={""}>Selecciona el tipo de Factura</option>
@@ -360,6 +361,7 @@ function NewInvoice({ title }) {
                                 document.getElementById(
                                   "documento"
                                 ).disabled = true;
+                                setOcultar("d-none")
                                 setTipo("Orden");
                               }}
                             >
@@ -370,9 +372,7 @@ function NewInvoice({ title }) {
                           </td>
                         </tr>
                       );
-                    }
-
-                    return <div key={orden.id}></div>;
+                    } 
                   })}
 
                   {pedidos.map((pedido) => {
@@ -425,7 +425,6 @@ function NewInvoice({ title }) {
                         </tr>
                       );
                     }
-                    return <div key={pedido.id}></div>;
                   })}
                 </tbody>
               </table>
@@ -457,9 +456,9 @@ function NewInvoice({ title }) {
                         : "Cedula ej: V12345678"
                     }
                     name="documento"
+                    id="documento"
                     onChange={handlerFormChange}
                     value={factura.documento === "" ? "" : factura.documento}
-                    id="documento"
                     required
                   />
                   {!verificado && activarForm && (
@@ -493,15 +492,13 @@ function NewInvoice({ title }) {
                           required
                         />
                         {!verificado && choice === "Venta" && (
-                          
-                            <input
-                              placeholder="Sector Donde vive"
-                              className="form-control bg-dark text-white"
-                              name="direccion"
-                              onChange={handlerFormChange}
-                              required
-                            />
-                          
+                          <input
+                            placeholder="Sector Donde vive"
+                            className="form-control bg-dark text-white"
+                            name="direccion"
+                            onChange={handlerFormChange}
+                            required
+                          />
                         )}
                       </div>
                     </>
@@ -543,7 +540,9 @@ function NewInvoice({ title }) {
                       type="button"
                       className="btn btn-primary"
                       value="Consultar"
-                      onClick={validarDocumento}
+                      onClick={()=>{
+                        validarDocumento()
+                        setOcultar("d-none")}}
                     />
                   </div>
                 )}
