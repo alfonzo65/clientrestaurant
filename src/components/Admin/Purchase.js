@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Purchase({ title }) {
+  const [rif, setRif] = useState("")
+  const [ facturasTemp , setFacturasTemp] = useState([])
   const [facturas, setFacturas] = useState([]);
   const [compras, setCompras] = useState(null);
   const [contador, setContador] = useState(0);
@@ -26,6 +28,31 @@ function Purchase({ title }) {
     },
   };
 
+  async function buscarFacturas(e){
+    e.preventDefault()
+    let array = []
+    let n = 0
+
+    if( rif ){
+      for (let i = 0; i < facturas.length; i++) {
+        if( facturas[i].rif === rif ){
+          array[n] = facturas[i]
+          n++
+        }
+      }
+      setFacturas(array)
+      if( array.length === 0 )
+         await swal("No se encontraron resultados con este rif " + rif, "", "warning" )
+    } else {
+      setFacturas(facturasTemp)
+    }
+
+  }
+
+  function handlerRif(e){
+    setRif(e.target.value)
+  }
+
   async function cargarCompras() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/compras",
@@ -35,6 +62,7 @@ function Purchase({ title }) {
     if (!success)
       swal("Ocurrio un error en el servidor al cargar las facturas");
     else {
+      setFacturasTemp(data)
       setFacturas(data);
       setContador(data.length);
     }
@@ -76,6 +104,19 @@ function Purchase({ title }) {
               <li>Monto Total: {compras ? compras : 0}$</li>
             </ul>
           </div>
+          
+            <form className="d-flex" role="search" onSubmit={buscarFacturas} >
+              <input
+                className="form-control me-2"
+                type="search"
+                pattern="(J|V)[0-9]{9}"
+                onChange={handlerRif}
+                placeholder="Eje: J or V ...123456789"
+                aria-label="Search"
+              />
+              <input type="submit" className="btn btn-outline-primary" value="Buscar"/>
+            </form>
+         
 
           <h2 className="text-center mt-1">Resumen de Compras</h2>
           <div className="tablero">

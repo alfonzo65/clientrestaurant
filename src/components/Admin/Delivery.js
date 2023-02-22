@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Delivery({ title }) {
+  const [cedula, setCedula] = useState("")
+  const [ pedidosTemp , setPedidosTemp] = useState([])
   const [pedidos, setPedidos] = useState([]);
   const [total, setTotal] = useState(null);
   const [detalles, setDetalles] = useState({
@@ -24,13 +26,41 @@ function Delivery({ title }) {
     },
   };
 
+  function handlerCedula(e){
+    setCedula(e.target.value)
+  }
+
+  async function buscarFacturas(e){
+    e.preventDefault()
+    let array = []
+    let n = 0
+
+    if( cedula ){
+      for (let i = 0; i < pedidos.length; i++) {
+        if( pedidos[i].cedula === cedula ){
+          array[n] = pedidos[i]
+          n++
+        }
+      }
+      setPedidos(array)
+      if( array.length === 0 )
+         await swal("No se encontraron resultados con este numero de cedula " + cedula, "", "warning" )
+    } else {
+      setPedidos(pedidosTemp)
+    }
+
+  }
+
   async function cargarEntregas() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/confirmados",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
-    if (success) setPedidos(data);
+    if (success){
+      setPedidosTemp(data)
+      setPedidos(data);
+    } 
     else swal("Error interno con la api");
   }
 
@@ -63,6 +93,17 @@ function Delivery({ title }) {
               {total && <li>Total Deliverys: {total}</li>}
             </ul>
           </div>
+          <form className="d-flex" role="search" onSubmit={buscarFacturas} >
+              <input
+                className="form-control me-2"
+                type="search"
+                pattern="(V)[0-9]+"
+                onChange={handlerCedula}
+                placeholder="Eje: V12345678..."
+                aria-label="Search"
+              />
+              <input type="submit" className="btn btn-outline-primary" value="Buscar"/>
+            </form>
 
           <h2 className="text-center mt-1">Resumen de Envios</h2>
           <div className="tablero">

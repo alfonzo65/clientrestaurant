@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import swal from "sweetalert";
 
 function Sales({ title }) {
+  const [cedula, setCedula] = useState("")
+  const [ facturasTemp , setFacturasTemp] = useState([])
   const [facturas, setFacturas] = useState([]);
   const [ventas, setVentas] = useState(null);
   const [contador, setContador] = useState(null);
@@ -27,6 +29,27 @@ function Sales({ title }) {
     },
   };
 
+  async function buscarFacturas(e){
+    e.preventDefault()
+    let array = []
+    let n = 0
+
+    if( cedula ){
+      for (let i = 0; i < facturas.length; i++) {
+        if( facturas[i].cedula === cedula ){
+          array[n] = facturas[i]
+          n++
+        }
+      }
+      setFacturas(array)
+      if( array.length === 0 )
+         await swal("No se encontraron resultados con este numero de cedula " + cedula, "", "warning" )
+    } else {
+      setFacturas(facturasTemp)
+    }
+
+  }
+
   async function cargarVentas() {
     const res = await fetch(
       "https://luzpizstore.onrender.com/api/work/ventas",
@@ -35,11 +58,16 @@ function Sales({ title }) {
     const { success, data } = await res.json();
     if (!success) swal("Ocurrio un error al cargar las facturas");
     else {
+      setFacturasTemp(data)
       setFacturas(data);
       setContador(data.length);
     }
 
     if (data.length === 0) swal("No hay Facturas De Ventas");
+  }
+
+  function handlerCedula(e){
+    setCedula(e.target.value)
   }
 
   async function ventasTotal() {
@@ -74,6 +102,17 @@ function Sales({ title }) {
               <li>Monto total: {ventas ? ventas : 0}$</li>
             </ul>
           </div>
+          <form className="d-flex" role="search" onSubmit={buscarFacturas} >
+              <input
+                className="form-control me-2"
+                type="search"
+                pattern="(V)[0-9]+"
+                onChange={handlerCedula}
+                placeholder="Eje: V12345678..."
+                aria-label="Search"
+              />
+              <input type="submit" className="btn btn-outline-primary" value="Buscar"/>
+            </form>
 
           <h2 className="text-center mt-1">Resumen de Ventas</h2>
           <div className="tablero">
