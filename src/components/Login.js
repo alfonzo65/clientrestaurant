@@ -78,6 +78,7 @@ function Login() {
                 placeholder="example@mail.com"
                 onChange={handlerUser}
                 value={ user ? user : ""}
+                required
               />
             </div>
             <div className="mb-3">
@@ -88,6 +89,7 @@ function Login() {
                 placeholder="password"
                 onChange={handlerPassword}
                 value={ clave ? clave : ""}
+                required
               />
               <div id="emailHelp" className="form-text text-white p-0 m-0"><Link 
               className="forgotten"
