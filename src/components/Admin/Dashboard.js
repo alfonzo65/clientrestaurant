@@ -76,7 +76,7 @@ function Dashboard({ title }) {
             <div className="card m-1 sales-card rounded-4">
               <div className="card-body text-center">
                 <i className="fa-solid fa-cash-register fs-1 bg-success p-3 rounded-5 text-white"></i>
-                <h5 className="card-title mt-1">Sales</h5>
+                <h5 className="card-title mt-1">Ventas</h5>
                 {ventas && (
                   <h3 className="fs-3">
                     ${ventas}
@@ -91,7 +91,7 @@ function Dashboard({ title }) {
             <div className="card m-1 purchase-card rounded-4">
               <div className="card-body text-center">
                 <i className="fa-solid fa-hand-holding-dollar fs-1 bg-danger p-3 rounded-5 text-white"></i>
-                <h5 className="card-title mt-1 text-dark">Purchase</h5>
+                <h5 className="card-title mt-1 text-dark">Compras</h5>
                 {compras && (
                   <h3 className="fs-3 text-dark">
                     ${compras}

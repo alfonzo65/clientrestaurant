@@ -3,6 +3,9 @@ import swal from "sweetalert";
 
 function Facturas({ title }) {
   const [choice, setChoice] = useState("");
+  const [documento, setDocumento] = useState("");
+  const [comprasTemp, setComprasTemp] = useState([]);
+  const [ventasTemp, setVentasTemp] = useState([]);
   const [compras, setCompras] = useState([]);
   const [ventas, setVentas] = useState([]);
   const [detalles, setDetalles] = useState({
@@ -14,7 +17,6 @@ function Facturas({ title }) {
 
   useEffect(() => {
     if (choice === "Compra") cargarCompras();
-
     if (choice === "Venta") cargarVentas();
   }, [choice]);
 
@@ -37,7 +39,10 @@ function Facturas({ title }) {
     );
     const { success, data } = await res.json();
     if (!success) swal("Ocurrio un error al cargar las facturas");
-    else setCompras(data);
+    else {
+      setComprasTemp(data);
+      setCompras(data);
+    }
 
     if (data.length === 0) swal("No hay Facturas De Compras");
   }
@@ -53,13 +58,20 @@ function Facturas({ title }) {
     const { success, data } = await res.json();
 
     if (!success) swal("Ocurrio un error al cargar las facturas");
-    else setVentas(data);
+    else {
+      setVentasTemp(data);
+      setVentas(data);
+    }
 
     if (data.length === 0) swal("No hay Facturas De Ventas");
   }
 
   function HandlerChoice(e) {
     setChoice(e.target.value);
+  }
+
+  function handlerDocument(e) {
+    setDocumento(e.target.value);
   }
 
   function mostrarResumen(invoice) {
@@ -69,6 +81,54 @@ function Facturas({ title }) {
       total: invoice.total,
     });
     setMostrarDetalles(true);
+  }
+
+  async function buscarFactura(e) {
+    e.preventDefault();
+
+    let array = [];
+    let n = 0;
+
+    if (choice === "Venta") {
+      if (documento) {
+        for (let i = 0; i < ventas.length; i++) {
+          if (ventas[i].cedula === documento) {
+            array[n] = ventas[i];
+            n++;
+          }
+        }
+        setVentas(array);
+        if (array.length === 0)
+          await swal(
+            "No se encontraron resultados con esta cedula " + documento,
+            "",
+            "warning"
+          );
+      } else {
+        setVentas(ventasTemp);
+      }
+
+    } else { // compras
+
+      if (documento) {
+        for (let i = 0; i < compras.length; i++) {
+          if (compras[i].rif === documento) {
+            array[n] = compras[i];
+            n++;
+          }
+        }
+        setCompras(array);
+        if (array.length === 0)
+          await swal(
+            "No se encontraron resultados con este rif " + documento,
+            "",
+            "warning"
+          );
+      } else {
+        setCompras(comprasTemp);
+      }
+
+    }
   }
 
   return (
@@ -87,14 +147,16 @@ function Facturas({ title }) {
           {title + (choice === "" ? "" : " De " + choice)}
         </h2>
 
-        { choice !== "" && (
-          <form className="d-flex my-1" role="search" >
+        {choice !== "" && (
+          <form className="d-flex my-1" role="search" onSubmit={buscarFactura}>
             <input
               className="form-control me-2"
               type="search"
-              pattern={ choice === "Venta" ? "(V)[0-9]+" : "(J|V)[0-9]{9}" }
-              
-              placeholder={ choice === "Venta" ? "V12345678..." : "J o V...123456789" } //"Eje: J - V...123456789"
+              onChange={handlerDocument}
+              pattern={choice === "Venta" ? "(V)[0-9]+" : "(J|V)[0-9]{9}"}
+              placeholder={
+                choice === "Venta" ? "V12345678..." : "J o V...123456789"
+              } //"Eje: J - V...123456789"
               aria-label="Search"
             />
             <input
@@ -104,7 +166,7 @@ function Facturas({ title }) {
             />
           </form>
         )}
-        
+
         <div className="col-md-12">
           <table className="table text-white text-center">
             <thead className="table-dark">
@@ -193,7 +255,7 @@ function Facturas({ title }) {
               >
                 X
               </span>
-              <h4>Detalles de la { choice === "Venta" ? choice : "Compra"}</h4>
+              <h4>Detalles de la {choice === "Venta" ? choice : "Compra"}</h4>
               <p>
                 rif: {detalles.proveedor}
                 <br />

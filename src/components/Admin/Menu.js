@@ -49,7 +49,7 @@ function Menu({ title }) {
                   <h5>Pizza</h5>
                 </th>
                 <th>
-                  <h5>Price</h5>
+                  <h5>Precio</h5>
                 </th>
               </tr>
             </thead>
@@ -74,7 +74,7 @@ function Menu({ title }) {
                   <h5>Bebida</h5>
                 </th>
                 <th>
-                  <h5>Price</h5>
+                  <h5>Precio</h5>
                 </th>
               </tr>
             </thead>

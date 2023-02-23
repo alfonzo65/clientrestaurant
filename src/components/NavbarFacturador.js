@@ -17,21 +17,21 @@ function NavbarFacturador() {
       <div className="nav-div">
         <Link className="nav-link" to="createInvoice">
           <span className="material-symbols-outlined d-block">receipt</span>
-          NewInvoice
+          NewFactura
         </Link>
       </div>
 
       <div className="nav-div">
         <Link className="nav-link" to="customers">
           <span className="material-symbols-outlined d-block">list</span>
-          Customers
+          Clientes
         </Link>
       </div>
 
       <div className="nav-div">
         <Link className="nav-link" to="providers">
           <span className="material-symbols-outlined d-block">list</span>
-          Providers
+          Proveedores
         </Link>
       </div>
 

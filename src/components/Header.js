@@ -10,7 +10,7 @@ function Header() {
               monitoring
             </span>
           <h2 className="text-center">
-            Welcome { sessionStorage.getItem("rol") }
+            Bienvenido { sessionStorage.getItem("rol") }
           </h2>
         </div>
       </div>

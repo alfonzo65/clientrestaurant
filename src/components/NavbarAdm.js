@@ -16,7 +16,7 @@ function Navbar() {
           <span className="material-symbols-outlined d-block">
             shopping_cart
           </span>
-          Purchase
+          Compras
         </Link>
       </div>
 
@@ -25,7 +25,7 @@ function Navbar() {
           <span className="material-symbols-outlined d-block">
             attach_money
           </span>
-          Sales
+          Ventas
         </Link>
       </div>
 
@@ -34,7 +34,7 @@ function Navbar() {
           <span className="material-symbols-outlined d-block">
             directions_bike
           </span>
-          Delivery
+          Deliverys
         </Link>
       </div>
 
