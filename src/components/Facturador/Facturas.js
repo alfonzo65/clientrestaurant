@@ -86,6 +86,25 @@ function Facturas({ title }) {
         <h2 className="subtitle p-2 text-white rounded-2">
           {title + (choice === "" ? "" : " De " + choice)}
         </h2>
+
+        { choice !== "" && (
+          <form className="d-flex my-1" role="search" >
+            <input
+              className="form-control me-2"
+              type="search"
+              pattern={ choice === "Venta" ? "(V)[0-9]+" : "(J|V)[0-9]{9}" }
+              
+              placeholder={ choice === "Venta" ? "V12345678..." : "J o V...123456789" } //"Eje: J - V...123456789"
+              aria-label="Search"
+            />
+            <input
+              type="submit"
+              className="btn btn-outline-primary"
+              value="Buscar"
+            />
+          </form>
+        )}
+        
         <div className="col-md-12">
           <table className="table text-white text-center">
             <thead className="table-dark">
