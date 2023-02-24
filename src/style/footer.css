@@ -5,7 +5,5 @@
     text-align: center;
     width: 100%;
     min-height: 45px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    margin-top: auto;
 }

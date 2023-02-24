@@ -10,7 +10,12 @@ body {
   background: -webkit-linear-gradient(to right, #434343, #000000);  
   background: linear-gradient(to right, #434343, #000000);
   min-height: 100vh;
-  position: relative;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 
