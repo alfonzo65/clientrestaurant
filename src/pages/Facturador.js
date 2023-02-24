@@ -4,6 +4,7 @@ import Facturas from "../components/Facturador/Facturas.js"
 import Customers from "../components/Facturador/Customers.js"
 import Providers from "../components/Facturador/Providers.js"
 import NewInvoice from "../components/Facturador/NewInvoice.js"
+import Footer from '../components/Footer.js'
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -30,6 +31,7 @@ function Facturador() {
           <Route path="/customers" element={<Customers title="Clientes"/>} />
           <Route path="/providers" element={<Providers title="Proveedores"/>} />
       </Routes>
+      <Footer />
     </>
   );
 }

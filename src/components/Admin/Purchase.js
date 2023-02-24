@@ -92,7 +92,7 @@ function Purchase({ title }) {
 
   return (
     <div
-      className="container mt-2 rounded-1 position-relative"
+      className="container mt-2 rounded-1 position-relative p-2"
       id="container_tabla"
     >
       <div className="row">

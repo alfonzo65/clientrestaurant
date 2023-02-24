@@ -3,8 +3,8 @@ import swal from "sweetalert";
 
 function Providers({ title }) {
   const [proveedores, setProveedores] = useState([]);
-  const [proveedoresTemp, setProveedoresTemp] = useState([])
-  const [rif, setRif] = useState("")
+  const [proveedoresTemp, setProveedoresTemp] = useState([]);
+  const [rif, setRif] = useState("");
 
   useEffect(() => {
     cargarProveedores();
@@ -28,17 +28,16 @@ function Providers({ title }) {
       }
     );
     const { success, data } = await res.json();
-    if (success){
-      setProveedoresTemp(data)
+    if (success) {
+      setProveedoresTemp(data);
       setProveedores(data);
-    } 
-    else swal("Error en el servidor", "", "warning");
+    } else swal("Error en el servidor", "", "warning");
 
     if (data.length === 0) swal("No hay Proveedores Registrados");
   }
 
-  async function buscarProveedor(e){
-    e.preventDefault()
+  async function buscarProveedor(e) {
+    e.preventDefault();
     let array = [];
     let n = 0;
 
@@ -70,7 +69,11 @@ function Providers({ title }) {
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-md-12">
-          <form className="d-flex my-1" role="search" onSubmit={buscarProveedor}>
+          <form
+            className="d-flex my-1"
+            role="search"
+            onSubmit={buscarProveedor}
+          >
             <input
               className="form-control me-2"
               type="search"
@@ -85,26 +88,28 @@ function Providers({ title }) {
               value="Buscar"
             />
           </form>
-          <table className="table text-white text-center">
-            <thead className="table-dark">
-              <tr>
-                <th>Proveedor</th>
-                <th>Rif</th>
-                <th>Telefono</th>
-              </tr>
-            </thead>
-            <tbody>
-              {proveedores.map((proveedor) => {
-                return (
-                  <tr key={proveedor.rif}>
-                    <td>{proveedor.nombre}</td>
-                    <td>{proveedor.rif}</td>
-                    <td>{proveedor.numero}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="tablero">
+            <table className="table text-white text-center">
+              <thead className="table-dark tablero_head">
+                <tr>
+                  <th>Proveedor</th>
+                  <th>Rif</th>
+                  <th>Telefono</th>
+                </tr>
+              </thead>
+              <tbody>
+                {proveedores.map((proveedor) => {
+                  return (
+                    <tr key={proveedor.rif}>
+                      <td>{proveedor.nombre}</td>
+                      <td>{proveedor.rif}</td>
+                      <td>{proveedor.numero}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

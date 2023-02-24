@@ -97,39 +97,42 @@ function Customers({ title }) {
               value="Buscar"
             />
           </form>
-          <table className="table text-white text-center">
-            <thead className="table-dark">
-              <tr>
-                <th>Cliente</th>
-                <th>C.I</th>
-                <th className="ocultar">Sector</th>
-                <th className="ocultar">Telefono</th>
-                <th className="mostrar">Detalles</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientes.map((cliente) => {
-                return (
-                  <tr key={cliente.cedula}>
-                    <td>{cliente.nombre}</td>
-                    <td>{cliente.cedula}</td>
-                    <td className="ocultar">{cliente.direccion}</td>
-                    <td className="ocultar">{cliente.numero}</td>
-                    <td className="mostrar">
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => {
-                          mostrarResumen(cliente);
-                        }}
-                      >
-                        ver
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="tablero">
+            <table className="table text-white text-center">
+              <thead className="table-dark tablero_head">
+                <tr>
+                  <th>Cliente</th>
+                  <th>C.I</th>
+                  <th className="ocultar">Sector</th>
+                  <th className="ocultar">Telefono</th>
+                  <th className="mostrar">Detalles</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clientes.map((cliente) => {
+                  return (
+                    <tr key={cliente.cedula}>
+                      <td>{cliente.nombre}</td>
+                      <td>{cliente.cedula}</td>
+                      <td className="ocultar">{cliente.direccion}</td>
+                      <td className="ocultar">{cliente.numero}</td>
+                      <td className="mostrar">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            mostrarResumen(cliente);
+                          }}
+                        >
+                          ver
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
           {mostrarDetalles && (
             <div className="mostrar_div text-center text-white">
               <span

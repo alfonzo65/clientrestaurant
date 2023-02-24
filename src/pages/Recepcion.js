@@ -5,6 +5,7 @@ import Ordenes from "../components/Admin/Ordenes.js"
 import NuevaOrden from '../components/Recepcion/NuevaOrden.js'
 import NewClient from '../components/Recepcion/NewClient.js'
 import Pedidos from '../components/Recepcion/Pedidos.js'
+import Footer from '../components/Footer.js'
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -30,6 +31,7 @@ function Recepcion() {
         <Route path="/newClient" element={<NewClient title="Registrar Nuevo Cliente"/>} />
         <Route path="/pedidos" element={<Pedidos title="Pedidos"/>} />
       </Routes>
+      <Footer />
     </>
   );
 }

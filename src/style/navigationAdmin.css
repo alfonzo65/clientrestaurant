@@ -9,39 +9,37 @@
 }
 
 
-.nav-bar .nav-div:hover{
+.nav-bar .nav_element:hover{
    background-color: #111;
 }
 .nav-div .nav-link:hover{
    color:#fff
 }
 
-.nav-bar div {
+.nav-bar .nav_element {
    display: inline-block;
    color: #ddd;
-   padding: 5px;
-   width: 100px;
+   padding: 5px 10px;
+   max-width: 200px;
 }
 
 .nav-bar {
    background-color: #222;
 }
 
+
 @media screen and (max-width: 820px) {
-   .nav-bar .nav-div {
+   .nav-bar .nav_element {
       display: block;
-      width: 100%;
+      max-width: 100%;
+      text-align: center;
    }
 
    .barra {
       position: static;
    }
 
-   .nav-div {
-      width: 100%;
-   }
-
-   .nav-div .nav-link {
+   .nav_element .nav-link {
       font-size: 20px;
    }
 

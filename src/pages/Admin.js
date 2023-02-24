@@ -7,6 +7,7 @@ import Menu from "../components/Admin/Menu.js";
 import Ordenes from "../components/Admin/Ordenes.js";
 import Delivery from "../components/Admin/Delivery.js";
 import Settings from '../components/Admin/Settings.js'
+import Footer from '../components/Footer.js'
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -40,6 +41,7 @@ function Admin() {
         <Route path="/delivery" element={<Delivery title="Delivery" />} />
         <Route path="/settings/*" element={<Settings title="Settings" />} />
       </Routes>
+      <Footer />
     </>
   );
 }

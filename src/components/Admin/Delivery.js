@@ -84,7 +84,7 @@ function Delivery({ title }) {
   }
 
   return (
-    <div className="container mt-2 rounded-1 position-relative">
+    <div className="container mt-2 rounded-1 position-relative p-2">
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-12 text-white">

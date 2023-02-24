@@ -7,8 +7,8 @@ import Bebidas from "../Admin/components_settings/Bebidas.js";
 
 function Settings({ title }) {
   return (
-    <div className="container mt-2 rounded-1">
-      <div className="row">
+    <div className="container mt-2 rounded-1 p-2">
+      <div className="row mb-5">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-md-3">
           <NavSettings />

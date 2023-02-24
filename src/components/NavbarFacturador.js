@@ -5,7 +5,7 @@ function NavbarFacturador() {
 
   return (
     <nav className="container-fluid p-0 nav-bar text-center">
-      <div className="nav-div">
+      <div className="nav_element">
         <Link className="nav-link" to="facturas">
           <span className="material-symbols-outlined d-block">
             receipt_long
@@ -14,31 +14,31 @@ function NavbarFacturador() {
         </Link>
       </div>
 
-      <div className="nav-div">
+      <div className="nav_element">
         <Link className="nav-link" to="createInvoice">
           <span className="material-symbols-outlined d-block">receipt</span>
-          NewFactura
+          Nueva Factura
         </Link>
       </div>
 
-      <div className="nav-div">
+      <div className="nav_element">
         <Link className="nav-link" to="customers">
           <span className="material-symbols-outlined d-block">list</span>
           Clientes
         </Link>
       </div>
 
-      <div className="nav-div">
+      <div className="nav_element">
         <Link className="nav-link" to="providers">
           <span className="material-symbols-outlined d-block">list</span>
           Proveedores
         </Link>
       </div>
 
-      <div className="nav-div">
+      <div className="nav_element">
         <Link className="nav-link" to="../logout">
           <span className="material-symbols-outlined d-block">logout</span>
-          Log out
+          Salir
         </Link>
       </div>
     </nav>

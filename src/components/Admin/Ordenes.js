@@ -74,7 +74,7 @@ function Ordenes({ title }) {
   }
 
   return (
-    <div className="container mt-2 rounded-1">
+    <div className="container mt-2 rounded-1 p-2">
       <div className="row">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-md-12 text-white">

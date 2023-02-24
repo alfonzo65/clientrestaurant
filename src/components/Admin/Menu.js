@@ -7,7 +7,7 @@ function Menu({ title }) {
   useEffect(() => {
     cargarBebidas();
     cargarPizzas();
-  }, [ pizzas , bebidas]);
+  }, []);
 
   const requestOptions = {
     method: "",
@@ -37,7 +37,7 @@ function Menu({ title }) {
   }
 
   return (
-    <div className="container mt-2 rounded-1">
+    <div className="container mt-2 rounded-1 p-2">
       <div className="row fondoPizza rounded">
         <h2 className="subtitle p-2 text-white rounded-2">{title}</h2>
         <div className="col-sm-6 mt-2 menu1">

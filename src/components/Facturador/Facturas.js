@@ -107,8 +107,8 @@ function Facturas({ title }) {
       } else {
         setVentas(ventasTemp);
       }
-
-    } else { // compras
+    } else {
+      // compras
 
       if (documento) {
         for (let i = 0; i < compras.length; i++) {
@@ -127,7 +127,6 @@ function Facturas({ title }) {
       } else {
         setCompras(comprasTemp);
       }
-
     }
   }
 
@@ -168,83 +167,86 @@ function Facturas({ title }) {
         )}
 
         <div className="col-md-12">
-          <table className="table text-white text-center">
-            <thead className="table-dark">
-              <tr>
-                {choice === "Venta" && (
-                  <>
-                    <th>Cliente</th>
-                    <th>C.I</th>
-                  </>
-                )}
+          <div className="tablero">
+            <table className="table text-white text-center">
+              <thead className="table-dark tablero_head">
+                <tr>
+                  {choice === "Venta" && (
+                    <>
+                      <th>Cliente</th>
+                      <th>C.I</th>
+                    </>
+                  )}
 
-                {choice === "Compra" && (
-                  <>
-                    <th>Empresa</th>
-                    <th>Rif</th>
-                  </>
-                )}
+                  {choice === "Compra" && (
+                    <>
+                      <th>Empresa</th>
+                      <th>Rif</th>
+                    </>
+                  )}
 
-                {choice !== "" && (
-                  <>
-                    <th className="ocultar">descripcion</th>
-                    <th className="ocultar">Monto</th>
-                    <th>Fecha</th>
-                    <th className="mostrar">Detalles</th>
-                  </>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {choice === "Compra" &&
-                compras.map((compra) => {
-                  compra.fecha = compra.fecha.substring(0, 10);
-                  return (
-                    <tr key={compra.id}>
-                      <td>{compra.nombre}</td>
-                      <td>{compra.rif}</td>
-                      <td className="ocultar">{compra.descripcion}</td>
-                      <td className="ocultar">{compra.total}$</td>
-                      <td>{compra.fecha}</td>
-                      <td className="mostrar">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => {
-                            mostrarResumen(compra);
-                          }}
-                        >
-                          ver
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                  {choice !== "" && (
+                    <>
+                      <th className="ocultar">descripcion</th>
+                      <th className="ocultar">Monto</th>
+                      <th>Fecha</th>
+                      <th className="mostrar">Detalles</th>
+                    </>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {choice === "Compra" &&
+                  compras.map((compra) => {
+                    compra.fecha = compra.fecha.substring(0, 10);
+                    return (
+                      <tr key={compra.id}>
+                        <td>{compra.nombre}</td>
+                        <td>{compra.rif}</td>
+                        <td className="ocultar">{compra.descripcion}</td>
+                        <td className="ocultar">{compra.total}$</td>
+                        <td>{compra.fecha}</td>
+                        <td className="mostrar">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              mostrarResumen(compra);
+                            }}
+                          >
+                            ver
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
 
-              {choice === "Venta" &&
-                ventas.map((venta) => {
-                  venta.fecha = venta.fecha.substring(0, 10);
-                  return (
-                    <tr key={venta.id}>
-                      <td>{venta.nombre}</td>
-                      <td>{venta.cedula}</td>
-                      <td className="ocultar">{venta.descripcion}</td>
-                      <td className="ocultar">{venta.total}$</td>
-                      <td>{venta.fecha}</td>
-                      <td className="mostrar">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => {
-                            mostrarResumen(venta);
-                          }}
-                        >
-                          ver
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                {choice === "Venta" &&
+                  ventas.map((venta) => {
+                    venta.fecha = venta.fecha.substring(0, 10);
+                    return (
+                      <tr key={venta.id}>
+                        <td>{venta.nombre}</td>
+                        <td>{venta.cedula}</td>
+                        <td className="ocultar">{venta.descripcion}</td>
+                        <td className="ocultar">{venta.total}$</td>
+                        <td>{venta.fecha}</td>
+                        <td className="mostrar">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              mostrarResumen(venta);
+                            }}
+                          >
+                            ver
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+
           {mostrarDetalles && (
             <div className="mostrar_div text-center text-white">
               <span

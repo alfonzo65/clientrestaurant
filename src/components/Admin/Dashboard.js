@@ -68,7 +68,7 @@ function Dashboard({ title }) {
 
   return (
     <>
-      <div className="container mt-2 rounded-1">
+      <div className="container mt-2 rounded-1 p-2">
         <div className="row">
           <h2 className="titleContent p-2 text-white rounded-2">{ title }</h2>
 
