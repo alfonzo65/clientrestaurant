@@ -26,7 +26,7 @@ function Customers({ title }) {
 
   async function cargarClientes() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/clientes",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/clientes",
       {
         ...requestOptions,
         method: "GET",

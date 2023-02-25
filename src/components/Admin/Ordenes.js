@@ -19,7 +19,7 @@ function Ordenes({ title }) {
 
   async function cargarOrdenes() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/work/ordenes",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ordenes",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await datos.json();
@@ -41,7 +41,7 @@ function Ordenes({ title }) {
 
       if (respuesta) {
         const res = await fetch(
-          "https://luzpizstore.onrender.com/api/work/ordenes",
+          process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ordenes",
           { ...requestOptions, method: "DELETE", body: data }
         );
         const { success, message } = await res.json();
@@ -55,7 +55,7 @@ function Ordenes({ title }) {
       }
     } else {
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/ordenes",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ordenes",
         { ...requestOptions, method: "DELETE", body: data }
       );
       const { success, message } = await res.json();

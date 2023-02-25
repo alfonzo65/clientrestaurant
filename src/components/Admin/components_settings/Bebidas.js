@@ -39,7 +39,7 @@ function Bebidas({ title }) {
       precio: newBebida.precio,
     });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       { ...requestOptions, method: "POST", body: data }
     );
     const { success } = await res.json();
@@ -76,7 +76,7 @@ function Bebidas({ title }) {
       id: newBebida.id,
     });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       { ...requestOptions, method: "PATCH", body: data }
     );
     const { success, message } = await res.json();
@@ -100,7 +100,7 @@ function Bebidas({ title }) {
   async function deleteBebida(bebida_id) {
     const data = await JSON.stringify({ id: bebida_id });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       { ...requestOptions, method: "DELETE", body: data }
     );
     const { success, message } = await res.json();
@@ -123,7 +123,7 @@ function Bebidas({ title }) {
 
   async function cargarBebidas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();

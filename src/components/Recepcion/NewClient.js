@@ -48,7 +48,7 @@ function NewClient({ title }) {
   async function registerNewClient(e){
     e.preventDefault()
     const data = await JSON.stringify(newClient)
-    const res = await fetch('https://luzpizstore.onrender.com/api/work/clientes',{
+    const res = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+'/api/work/clientes',{
        ...requestOptions, method: "POST", body: data
       })
       const { success, message } = await res.json()

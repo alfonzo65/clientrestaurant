@@ -53,7 +53,7 @@ function Delivery({ title }) {
 
   async function cargarEntregas() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/confirmados",
+      process.env.REACT_APP_URL_BACKENDSERVER + "/api/work/confirmados",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
@@ -66,7 +66,7 @@ function Delivery({ title }) {
 
   async function pedidosTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/confirmados/count",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/confirmados/count",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();

@@ -21,7 +21,7 @@ function Providers({ title }) {
 
   async function cargarProveedores() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/provedores",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/provedores",
       {
         ...requestOptions,
         method: "GET",

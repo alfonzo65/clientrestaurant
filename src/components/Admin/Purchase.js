@@ -55,7 +55,7 @@ function Purchase({ title }) {
 
   async function cargarCompras() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/compras",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/compras",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
@@ -72,7 +72,7 @@ function Purchase({ title }) {
 
   async function comprasTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/compras/total",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/compras/total",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();

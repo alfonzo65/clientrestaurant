@@ -38,7 +38,7 @@ function Users({ title }) {
   async function handlerUpdateUser(user) {
     setNewUser(user);
     const datos = await JSON.stringify(newUser);
-    const data = await fetch("https://luzpizstore.onrender.com/api/users", {
+    const data = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users", {
       ...requestOptions,
       method: "PATCH",
       body: datos,
@@ -63,7 +63,7 @@ function Users({ title }) {
   async function handlerSubmit(e) {
     e.preventDefault();
     const new_user = await JSON.stringify(newUser);
-    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
+    const res = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users", {
       ...requestOptions,
       method: "POST",
       body: new_user,
@@ -89,7 +89,7 @@ function Users({ title }) {
   // eliminar un usuario
   async function handlerDelete(id) {
     const data = await JSON.stringify({ cedula: id });
-    const res = await fetch("https://luzpizstore.onrender.com/api/users", {
+    const res = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users", {
       ...requestOptions,
       method: "DELETE",
       body: data,
@@ -118,7 +118,7 @@ function Users({ title }) {
   }
 
   async function cargarUsuarios() {
-    const datos = await fetch("https://luzpizstore.onrender.com/api/users", {
+    const datos = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users", {
       ...requestOptions,
       method: "GET",
     });

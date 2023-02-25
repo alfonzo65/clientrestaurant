@@ -15,7 +15,7 @@ function OlvidoDeClave() {
  async function recuperarContrasena(e){
     e.preventDefault()
     const data = await JSON.stringify({email: mail})
-    const res = await fetch('https://luzpizstore.onrender.com/api/users/temporal_password',{
+    const res = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+'/api/users/temporal_password',{
         method:"POST",
         mode:"cors",
         headers:{

@@ -81,7 +81,7 @@ function NewInvoice({ title }) {
         numero: factura.telefono,
       });
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/provedores",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/provedores",
         {
           ...requestOptions,
           method: "POST",
@@ -107,7 +107,7 @@ function NewInvoice({ title }) {
         numero: factura.telefono,
       });
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/clientes",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/clientes",
         {
           ...requestOptions,
           method: "POST",
@@ -131,7 +131,7 @@ function NewInvoice({ title }) {
         descripcion: factura.descripcion,
       });
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/compras",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/compras",
         {
           ...requestOptions,
           method: "POST",
@@ -155,7 +155,7 @@ function NewInvoice({ title }) {
         descripcion: factura.descripcion,
       });
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/ventas",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ventas",
         {
           ...requestOptions,
           method: "POST",
@@ -175,7 +175,7 @@ function NewInvoice({ title }) {
       const data = await JSON.stringify({ id: factura.id });
       const tipoDeEncargo = tipo === "Orden" ? "ordenes" : "entregas";
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/" +
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/" +
           tipoDeEncargo +
           "/facturar",
         {
@@ -194,7 +194,7 @@ function NewInvoice({ title }) {
 
   async function cargarOrdenes() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/work/ordenes",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ordenes",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await datos.json();
@@ -205,7 +205,7 @@ function NewInvoice({ title }) {
 
   async function cargarPedidos() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/work/entregas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/entregas",
       {
         ...requestOptions,
         method: "GET",
@@ -229,7 +229,7 @@ function NewInvoice({ title }) {
 
   async function consultarProveedor() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/provedores/" +
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/provedores/" +
         factura.documento,
       {
         ...requestOptions,
@@ -250,7 +250,7 @@ function NewInvoice({ title }) {
 
   async function consultarCliente() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/clientes/" + factura.documento,
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/clientes/" + factura.documento,
       {
         ...requestOptions,
         method: "GET",

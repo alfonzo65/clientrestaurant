@@ -38,7 +38,7 @@ function Pizzas({ title }) {
       precio: newPizza.precio,
     });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       { ...requestOptions, method: "POST", body: data }
     );
     const { success } = await res.json();
@@ -63,7 +63,7 @@ function Pizzas({ title }) {
   async function deletePizza(pizza_id) {
     const data = await JSON.stringify({ id: pizza_id });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       { ...requestOptions, method: "DELETE", body: data }
     );
     const { success, message } = await res.json();
@@ -100,7 +100,7 @@ function Pizzas({ title }) {
       id: newPizza.id,
     });
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       { ...requestOptions, method: "PATCH", body: data }
     );
     const { success, message } = await res.json();
@@ -122,7 +122,7 @@ function Pizzas({ title }) {
 
   async function cargarPizzas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();

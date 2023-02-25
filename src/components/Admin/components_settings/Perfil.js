@@ -30,7 +30,7 @@ function Perfil({ title }) {
   }
 
   async function cargarDatos() {
-    const data = await fetch("https://luzpizstore.onrender.com/api/users/me", {
+    const data = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users/me", {
       ...requestOptions,
       method: "POST",
     });
@@ -47,7 +47,7 @@ function Perfil({ title }) {
   async function handlerUpdateUser(e) {
     e.preventDefault()
     const datos = await JSON.stringify(misDatos);
-    const data = await fetch("https://luzpizstore.onrender.com/api/users", {
+    const data = await fetch(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users", {
       ...requestOptions,
       method: "PATCH",
       body: datos,

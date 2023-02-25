@@ -24,7 +24,7 @@ function Dashboard({ title }) {
 
   async function comprasTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/compras/total",
+      process.env.REACT_APP_URL_BACKENDSERVER + "/api/work/compras/total",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
@@ -35,7 +35,7 @@ function Dashboard({ title }) {
 
   async function ventasTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/ventas/total",
+      process.env.REACT_APP_URL_BACKENDSERVER +"/api/work/ventas/total",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
@@ -46,7 +46,7 @@ function Dashboard({ title }) {
 
   async function pedidosTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/confirmados/count",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/confirmados/count",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();
@@ -57,7 +57,7 @@ function Dashboard({ title }) {
 
   async function ordenesTotal() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/ventas/count",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ventas/count",
       { ...requestOptions, method: "GET" }
     );
     const { success, data } = await res.json();

@@ -55,7 +55,7 @@ function NuevaOrden({ title }) {
 
   async function consultarClient(cedula) {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/clientes/" + cedula,
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/clientes/" + cedula,
       {
         ...requestOptions,
         method: "GET",
@@ -94,7 +94,7 @@ function NuevaOrden({ title }) {
       });
       // peticion a la api
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/ordenes",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ordenes",
         {
           ...requestOptions,
           method: "POST",
@@ -122,7 +122,7 @@ function NuevaOrden({ title }) {
       });
       // peticion a la api
       const res = await fetch(
-        "https://luzpizstore.onrender.com/api/work/entregas",
+        process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/entregas",
         {
           ...requestOptions,
           method: "POST",
@@ -199,7 +199,7 @@ function NuevaOrden({ title }) {
   // cargar lista de pizzas
   async function cargarPizzas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       {
         ...requestOptions,
         method: "GET",
@@ -212,7 +212,7 @@ function NuevaOrden({ title }) {
   // cargar lista de bebidas
   async function cargarBebidas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       {
         ...requestOptions,
         method: "GET",

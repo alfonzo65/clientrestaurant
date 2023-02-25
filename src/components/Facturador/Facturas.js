@@ -31,7 +31,7 @@ function Facturas({ title }) {
 
   async function cargarCompras() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/compras",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/compras",
       {
         ...requestOptions,
         method: "GET",
@@ -49,7 +49,7 @@ function Facturas({ title }) {
 
   async function cargarVentas() {
     const res = await fetch(
-      "https://luzpizstore.onrender.com/api/work/ventas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/work/ventas",
       {
         ...requestOptions,
         method: "GET",

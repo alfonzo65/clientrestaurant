@@ -20,7 +20,7 @@ function Menu({ title }) {
 
   async function cargarPizzas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/pizzas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/pizzas",
       { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();
@@ -29,7 +29,7 @@ function Menu({ title }) {
 
   async function cargarBebidas() {
     const datos = await fetch(
-      "https://luzpizstore.onrender.com/api/menu/bebidas",
+      process.env.REACT_APP_URL_BACKENDSERVER+"/api/menu/bebidas",
       { ...requestOptions, method: "GET" }
     );
     const { data } = await datos.json();
