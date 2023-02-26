@@ -37,6 +37,7 @@ function Login() {
       email: user,
       contrasena: clave,
     });
+    console.log(process.env.REACT_APP_URL_BACKENDSERVER+"/api/users/login")
 
     const resp = await fetch(
       process.env.REACT_APP_URL_BACKENDSERVER+"/api/users/login",
