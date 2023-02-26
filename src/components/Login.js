@@ -18,7 +18,7 @@ function Login() {
 
   function isAutenticate(){
     if( sessionStorage.getItem("rol") && sessionStorage.getItem("token") )
-      navigate( sessionStorage.getItem("rol") )
+      navigate( sessionStorage.getItem("rol")+"/*" )
   }
 
   function handlerUser(e) {
