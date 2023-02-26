@@ -49,7 +49,7 @@ function Login() {
         body: data,
       }
     );
-
+    console.log(resp)
     const { success, results, token } = await resp.json();
 
     if (success) {
