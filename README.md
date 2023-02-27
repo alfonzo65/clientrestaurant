@@ -71,3 +71,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 PICTURES
 ![app](https://user-images.githubusercontent.com/60753491/221711677-0982acfe-9016-4aec-aa21-5f0a3133504e.png)
+![app2](https://user-images.githubusercontent.com/60753491/221711961-6732179d-1f4f-42fc-b217-333e4c92aa43.png)
+
