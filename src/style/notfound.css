@@ -1,0 +1,43 @@
+.contenedor {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.notfoundcard {
+	width: 500px;
+	min-height: 350px;
+	background-color: rgba(1,2,2,0.4);
+	color: #fff;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.notfoundcard{
+	padding: 50px;
+}
+
+.notfoundcard h1 {
+	font-size: 100px;
+}
+
+.notfoundcard button {
+	padding: 8px;
+	outline: none;
+	border: none;
+	background-color: #05b;
+}
+
+.notfoundcard button:hover {
+	background-color: #05f;
+}
+
+.notfoundcard button:focus{
+	box-shadow: 0 0 0 1px #aaa;
+}
+
+.notfoundcard .link_notfound {
+	text-decoration: none;
+	color: #fff;
+}

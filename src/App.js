@@ -6,6 +6,7 @@ import Recepcion from "./pages/Recepcion.js";
 import Proteccion from "./components/Proteccion.js";
 import Logout from './components/Logout.js'
 import OlvidoDeClave from './components/OlvidoDeClave.js'
+import NotFound from "./components/NotFound.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -41,7 +42,7 @@ function App() {
         />
         <Route path="/logout" element={<Logout />} />
         <Route path="/forgottenPassword" element={<OlvidoDeClave />} />
-        <Route path="/*" element={<h1>Page not found 404</h1>} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </BrowserRouter>
   );
